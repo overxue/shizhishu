@@ -8,7 +8,7 @@
     <title>食之蔬后台管理</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/index.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app"></div>
