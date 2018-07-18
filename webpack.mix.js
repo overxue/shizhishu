@@ -15,10 +15,11 @@ mix.webpackConfig({
   },
   output: {
     publicPath: "/",
-    chunkFilename: 'js/lazy/[name].[chunkhash].js'
+    chunkFilename: 'js/lazy/[name].js'
   }
 })
 
 mix.js('resources/assets/js/main.js', 'public/js')
    .stylus('resources/assets/stylus/index.styl', 'public/css')
+   .stylus('resources/assets/stylus/element.styl', 'public/css')
    .extract(['vue'])

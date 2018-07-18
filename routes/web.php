@@ -1,3 +1,3 @@
 <?php
 
-Route::view('/', 'pages.index');
+Route::view('/{query?}', 'pages.index');
