@@ -6,7 +6,8 @@ mix.webpackConfig({
     alias: {
       'components': 'assets/js/components',
       'api': 'assets/js/api',
-      'common': 'assets/js/common'
+      'common': 'assets/js/common',
+      'base': 'assets/js/base'
     },
     modules: [
       'node_modules',
