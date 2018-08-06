@@ -22,9 +22,10 @@ $api->version('v1', [
         // 图片验证码
         $api->post('captchas', 'CaptchasController@store')
             ->name('api.captchas.store');
-        // 登录
+        // 账号密码登录
         $api->post('authorizations', 'AuthorizationsController@store')
             ->name('api.authorizations.store');
+        // 手机验证码登录
         // 刷新token
         $api->put('authorizations/current', 'AuthorizationsController@update')
             ->name('api.authorizations.destroy');
