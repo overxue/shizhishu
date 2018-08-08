@@ -8,7 +8,7 @@ class Address extends Model
 {
     protected $fillable = [
         'province', 'city', 'district', 'address', 'contact_name',
-        'contact_phone', 'default_address', 'last_used_at'
+        'contact_phone'
     ];
 
     protected $dates = ['last_used_at'];

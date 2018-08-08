@@ -19,7 +19,7 @@ class AddressTransformer extends TransformerAbstract
             'city' => $address->city,
             'district' => $address->district,
             'address' => $address->address,
-            'default_address' => (Boolean)$address->default_address
+            'default_address' => (Boolean) $address->default_address
         ];
     }
 }

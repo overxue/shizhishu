@@ -53,6 +53,9 @@ $api->version('v1', [
             // 当前登录用户地址列表
             $api->get('users/addresses', 'AddressesController@userIndex')
                 ->name('api.addresses.userIndex');
+            // 新增地址
+            $api->post('addresses', 'AddressesController@store')
+                ->name('api.addresses.store');
         });
     });
 });
