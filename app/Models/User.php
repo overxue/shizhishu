@@ -28,6 +28,11 @@ class User extends Authenticatable implements JWTSubject
         'password', 'remember_token',
     ];
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
