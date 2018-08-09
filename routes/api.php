@@ -59,6 +59,9 @@ $api->version('v1', [
             // 修改地址
             $api->patch('addresses/{address}', 'AddressesController@update')
                 ->name('api.addresses.update');
+            // 删除地址
+            $api->delete('addresses/{address}', 'AddressesController@destroy')
+                ->name('api.addresses.destroy');
         });
     });
 });

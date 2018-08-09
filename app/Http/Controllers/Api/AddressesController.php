@@ -35,4 +35,12 @@ class AddressesController extends Controller
         $address->update($request->all());
         return $this->response->item($address, new AddressTransformer());
     }
+
+    public function destroy(Address $address)
+    {
+        $this->authorize('destory', $address);
+
+        $address->delete();
+        return $this->response->noContent();
+    }
 }

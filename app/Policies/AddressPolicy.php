@@ -14,4 +14,9 @@ class AddressPolicy
     {
         return $address->user_id == $user->id;
     }
+
+    public function destory(User $user, Address $address)
+    {
+        return $address->user_id == $user->id;
+    }
 }
