@@ -20,7 +20,7 @@ class AddressesController extends Controller
 
     public function store(AddressRequest $request, Address $address)
     {
-        $address->fill($request->all());
+        $address->fill($request->except('default_address'));
         $address->user_id = $this->user()->id;
         $address->save();
 
@@ -42,5 +42,15 @@ class AddressesController extends Controller
 
         $address->delete();
         return $this->response->noContent();
+    }
+
+    public function default(Address $address)
+    {
+        $this->authorize('update', $address);
+
+        $address->where('user_id', $this->user()->id)->update(['default_address' => false]);
+        $address->update(['default_address' => true]);
+        // update addresses set default_address = (case when id = 3 then 1 else 0 end) where user_id = 5
+        return $this->response->item($address, new AddressTransformer());
     }
 }

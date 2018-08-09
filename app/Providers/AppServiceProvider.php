@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // \App\Models\Address::observe(\App\Observers\AddressObserver::class);
     }
 
     /**
