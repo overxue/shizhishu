@@ -6,7 +6,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
-    'middleware' => 'serializer:array'
+    'middleware' => ['serializer:array', 'bindings']
 ], function($api) {
     $api->group([
         'middleware' => 'api.throttle',
@@ -56,6 +56,9 @@ $api->version('v1', [
             // 新增地址
             $api->post('addresses', 'AddressesController@store')
                 ->name('api.addresses.store');
+            // 修改地址
+            $api->patch('addresses/{address}', 'AddressesController@update')
+                ->name('api.addresses.update');
         });
     });
 });

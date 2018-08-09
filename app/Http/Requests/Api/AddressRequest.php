@@ -18,4 +18,16 @@ class AddressRequest extends FormRequest
             ]
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'province'  => '省份',
+            'city' => '城市',
+            'district' => '街道',
+            'address' => '详细地址',
+            'contact_name' => '联系人',
+            'contact_phone' => '手机号'
+        ];
+    }
 }

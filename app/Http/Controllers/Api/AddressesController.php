@@ -27,4 +27,12 @@ class AddressesController extends Controller
         return $this->response->item($address, new AddressTransformer())
             ->setStatusCode(201);
     }
+
+    public function update(AddressRequest $request, Address $address)
+    {
+        $this->authorize('update', $address);
+
+        $address->update($request->all());
+        return $this->response->item($address, new AddressTransformer());
+    }
 }
