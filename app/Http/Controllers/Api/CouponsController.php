@@ -20,4 +20,31 @@ class CouponsController extends Controller
 
         return $this->response->collection($coupons, new CouponTransformer());
     }
+
+    public function userReciive(Coupon $coupon)
+    {
+        if (!$coupon->enable) {
+            return $this->response->errorNotFound();
+        }
+
+        if ($coupon->total - $coupon->used <= 0) {
+            return $this->response->error('优惠券以领完', 422);
+        }
+
+        //  gt判断第一个日期是否比第二个日期大(Carbon自带函数)
+        if ($coupon->not_before && $coupon->not_before->gt(Carbon::now())) {
+            return $this->response->error('优惠券还不能领取', 422);
+        }
+
+        // lt判断第一个日期是否比第二个日期小
+        if ($coupon->not_after && $coupon->not_after->lt(Carbon::now())) {
+            return $this->response->errorUnauthorized('过期优惠券不能领取', 422);
+        }
+
+        if ($this->user()->coupons()->find($coupon->id)) {
+            return $this->response->error('优惠券已领取', 422);
+        }
+        $this->user()->coupons()->attach($coupon);
+        return $this->response->created();
+    }
 }

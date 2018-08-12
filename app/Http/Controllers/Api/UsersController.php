@@ -13,7 +13,7 @@ class UsersController extends Controller
     {
         $verifyData = \Cache::get($request->verification_key);
         if (!$verifyData) {
-            return $this->response->error('验证码已失效', 402);
+            return $this->response->error('验证码已失效', 422);
         }
 
         if (!hash_equals($verifyData['code'], $request->verification_code)) {

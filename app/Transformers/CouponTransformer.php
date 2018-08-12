@@ -10,6 +10,7 @@ class CouponTransformer extends TransformerAbstract
     public function transform(Coupon $coupon)
     {
         return [
+            'id' => $coupon->id,
             'money' => str_replace('.00', '', $coupon->money),
             'description' => $coupon->description,
         ];

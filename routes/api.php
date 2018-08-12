@@ -67,6 +67,9 @@ $api->version('v1', [
             // 删除地址
             $api->delete('addresses/{address}', 'AddressesController@destroy')
                 ->name('api.addresses.destroy');
+            // 领取优惠券
+            $api->post('/coupons/{coupon}/receives', 'CouponsController@userReciive')
+                ->name('api.coupons.receive');
         });
     });
 });
