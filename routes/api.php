@@ -53,7 +53,7 @@ $api->version('v1', [
             $api->get('user', 'UsersController@me')
                 ->name('api.user.show');
             // 当前登录用户地址列表
-            $api->get('users/addresses', 'AddressesController@userIndex')
+            $api->get('user/addresses', 'AddressesController@userIndex')
                 ->name('api.addresses.userIndex');
             // 新增地址
             $api->post('addresses', 'AddressesController@store')
@@ -68,8 +68,10 @@ $api->version('v1', [
             $api->delete('addresses/{address}', 'AddressesController@destroy')
                 ->name('api.addresses.destroy');
             // 领取优惠券
-            $api->post('/coupons/{coupon}/receives', 'CouponsController@userReciive')
+            $api->post('coupons/{coupon}/receives', 'CouponsController@userReciive')
                 ->name('api.coupons.receive');
+            // 用户已领取的优惠券
+            $api->get('user/coupons', 'CouponsController@userIndex');
         });
     });
 });

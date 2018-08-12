@@ -47,4 +47,10 @@ class CouponsController extends Controller
         $this->user()->coupons()->attach($coupon);
         return $this->response->created();
     }
+
+    public function userIndex()
+    {
+        $coupons = $this->user()->coupons()->get();
+        return $this->response->collection($coupons, new CouponTransformer());
+    }
 }

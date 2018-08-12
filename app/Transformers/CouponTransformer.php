@@ -13,6 +13,7 @@ class CouponTransformer extends TransformerAbstract
             'id' => $coupon->id,
             'money' => str_replace('.00', '', $coupon->money),
             'description' => $coupon->description,
+            'expirAt' => $coupon->not_after->toDateTimeString(),
         ];
     }
 }
