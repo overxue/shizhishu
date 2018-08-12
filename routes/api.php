@@ -46,6 +46,8 @@ $api->version('v1', [
             ->name('api.banners.index');
         // 获取首页优惠券列表
         $api->get('coupons', 'CouponsController@index');
+        // 获取商品分类
+        $api->get('categories', 'CategoriesController@index');
 
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {

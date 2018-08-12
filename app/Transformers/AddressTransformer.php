@@ -4,7 +4,6 @@ namespace App\Transformers;
 
 use App\Models\Address;
 use League\Fractal\TransformerAbstract;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class AddressTransformer extends TransformerAbstract
 {
