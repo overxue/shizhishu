@@ -45,7 +45,8 @@ $api->version('v1', [
         $api->get('banners', 'BannersController@index')
             ->name('api.banners.index');
         // 获取首页优惠券列表
-        $api->get('coupons', 'CouponsController@index');
+        $api->get('coupons', 'CouponsController@index')
+            ->name('api.coupons.index');
         // 获取商品分类
         $api->get('categories', 'CategoriesController@index');
 
@@ -73,7 +74,8 @@ $api->version('v1', [
             $api->post('coupons/{coupon}/receives', 'CouponsController@userReciive')
                 ->name('api.coupons.receive');
             // 用户已领取的优惠券
-            $api->get('user/coupons', 'CouponsController@userIndex');
+            $api->get('user/coupons', 'CouponsController@userIndex')
+                ->name('api.coupons.userIndex');
         });
     });
 });
