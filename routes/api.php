@@ -48,8 +48,8 @@ $api->version('v1', [
         $api->get('coupons', 'CouponsController@index')
             ->name('api.coupons.index');
         // 获取商品分类
-        $api->get('categories', 'CategoriesController@index');
-
+        $api->get('categories', 'CategoriesController@index')
+            ->name('api.categories.index');
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {
             // 当前登录用户信息

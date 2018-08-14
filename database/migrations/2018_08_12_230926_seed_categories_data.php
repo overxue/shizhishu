@@ -23,7 +23,7 @@ class SeedCategoriesData extends Migration
                 'iconfont' => '&#xe656;',
             ],
             [
-                'name'        => '蒸鲜荟萃',
+                'name'        => '珍鲜荟萃',
                 'iconfont' => '&#xe614;',
             ],
             [
