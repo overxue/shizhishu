@@ -7,6 +7,8 @@ use League\Fractal\TransformerAbstract;
 
 class ProductTransformer extends TransformerAbstract
 {
+    protected $availableIncludes = ['category'];
+
     public function transform(Product $product)
     {
         return [
@@ -20,5 +22,10 @@ class ProductTransformer extends TransformerAbstract
             'price' => $product->price,
             'image' => $product->image,
         ];
+    }
+
+    public function includeCategory(Product $product)
+    {
+        return $this->item($product->category, new CategoryTransformer());
     }
 }
