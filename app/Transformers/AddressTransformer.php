@@ -14,10 +14,7 @@ class AddressTransformer extends TransformerAbstract
             'user_id' => $address->user_id,
             'contact_name' => $address->contact_name,
             'contact_phone' => $address->contact_phone,
-            'province' => $address->province,
-            'city' => $address->city,
-            'district' => $address->district,
-            'address' => $address->address,
+            'address' => $address->fulladdress,
             'default_address' => (Boolean) $address->default_address
         ];
     }

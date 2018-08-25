@@ -16,4 +16,9 @@ class Address extends Model
     protected $cats = [
         'default_address' => 'boolean'
     ];
+
+    public function getFulladdressAttribute()
+    {
+        return $this->province.' '.$this->city.' '.$this->district.' '.$this->address;
+    }
 }
