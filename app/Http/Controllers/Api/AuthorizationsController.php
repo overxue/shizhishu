@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Api\AuthorizationsRequest;
 use Illuminate\Http\Request;
 use Auth;
+use App\Transformers\UserTransformer;
 
 class AuthorizationsController extends Controller
 {
@@ -16,12 +17,12 @@ class AuthorizationsController extends Controller
             $credentials['email'] = $username :
             $credentials['phone'] = $username;
         $credentials['password'] = $request->password;
-
         if (!$token = Auth::guard('api')->attempt($credentials)) {
             return $this->response->errorUnauthorized('用户名或密码错误');
         }
-
-        return $this->respondWithToken($token)->setStatusCode(201);
+        return $this->response->item(Auth::guard('api')->user(), new UserTransformer())
+            ->setMeta($this->respondWithToken($token)->original)
+            ->setStatusCode(201);
     }
 
     public function update()
