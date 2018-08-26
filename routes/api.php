@@ -74,7 +74,7 @@ $api->version('v1', [
             $api->delete('addresses/{address}', 'AddressesController@destroy')
                 ->name('api.addresses.destroy');
             // 领取优惠券
-            $api->post('coupons/{coupon}/receives', 'CouponsController@userReciive')
+            $api->post('coupons/{coupon}/receives', 'CouponsController@userReceive')
                 ->name('api.coupons.receive');
             // 用户已领取的优惠券
             $api->get('user/coupons', 'CouponsController@userIndex')
