@@ -20,18 +20,23 @@ class UsersController extends Controller
             return $this->response->errorUnauthorized('验证码错误');
         }
 
-        $user->create([
-            'name' => $request->name,
-            'phone' => $verifyData['phone'],
-            'password' => bcrypt($request->password),
-        ]);
+        $users = $user::firstOrNew(['phone' => $verifyData['phone']]);
 
+        if ($users->id) {
+            // 清除验证码缓存
+            \Cache::forget($request->verification_key);
+            return $this->response->error('手机号已存在', 422);
+        } else {
+            $users->name = $request->name;
+            $users->password = bcrypt($request->password);
+            $users->save();
+        }
         // 清除验证码缓存
         \Cache::forget($request->verification_key);
 
-        return $this->response->item($user, new UserTransformer())
+        return $this->response->item($users, new UserTransformer())
             ->setMeta([
-                'access_token' => \Auth::guard('api')->fromUser($user),
+                'access_token' => \Auth::guard('api')->fromUser($users),
                 'token_type' => 'Bearer',
                 'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
             ])

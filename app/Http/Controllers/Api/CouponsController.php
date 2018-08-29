@@ -38,7 +38,7 @@ class CouponsController extends Controller
 
         // lt判断第一个日期是否比第二个日期小
         if ($coupon->not_after && $coupon->not_after->lt(Carbon::now())) {
-            return $this->response->errorUnauthorized('过期优惠券不能领取', 401);
+            return $this->response->error('过期优惠券不能领取', 401);
         }
 
         if ($this->user()->coupons()->find($coupon->id)) {

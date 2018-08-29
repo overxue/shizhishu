@@ -26,9 +26,11 @@ $api->version('v1', [
         $api->post('authorizations', 'AuthorizationsController@store')
             ->name('api.authorizations.store');
         // 手机验证码登录
+        $api->post('code/authorizations', 'AuthorizationsController@codeLogin')
+            ->name('api.authorizations.codeLogin');
         // 刷新token
         $api->put('authorizations/current', 'AuthorizationsController@update')
-            ->name('api.authorizations.destroy');
+            ->name('api.authorizations.update');
         // 删除token
         $api->delete('authorizations/current', 'AuthorizationsController@destroy')
             ->name('api.authorizations.destroy');

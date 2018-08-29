@@ -6,6 +6,7 @@ use App\Http\Requests\Api\AuthorizationsRequest;
 use Illuminate\Http\Request;
 use Auth;
 use App\Transformers\UserTransformer;
+use App\Models\User;
 
 class AuthorizationsController extends Controller
 {
@@ -23,6 +24,30 @@ class AuthorizationsController extends Controller
         return $this->response->item(Auth::guard('api')->user(), new UserTransformer())
             ->setMeta($this->respondWithToken($token)->original)
             ->setStatusCode(201);
+    }
+
+    public function codeLogin(Request $request)
+    {
+        $verifyData = \Cache::get($request->verification_key);
+
+        if (!$verifyData) {
+            return $this->response->error('验证码已失效', 422);
+        }
+
+        if (!hash_equals($verifyData['code'], $request->verification_code)) {
+            // 返回401
+            return $this->response->errorUnauthorized('验证码错误');
+        }
+        $user = User::where('phone', $verifyData['phone'])->first();
+        // 清除验证码缓存
+        \Cache::forget($request->verification_key);
+        if ($user) {
+            return $this->response->item($user, new UserTransformer())
+                ->setMeta($this->respondWithToken(\Auth::guard('api')->fromUser($user))->original)
+                ->setStatusCode(201);
+        } else {
+            return $this->response->error('手机号未注册', 422);
+        }
     }
 
     public function update()
