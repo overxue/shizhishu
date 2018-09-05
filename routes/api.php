@@ -52,9 +52,8 @@ $api->version('v1', [
         // 获取商品分类   ?include=products  首页商品列表随机获取4个
         $api->get('categories', 'CategoriesController@index')
             ->name('api.categories.index');
-        // 获取商品列表   ?category_id 根据分类获取商品
-        $api->get('products', 'ProductsController@index')
-            ->name('api.products.index');
+        // 商品详情
+        $api->get('products/{product}', 'ProductsController@show');
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {
             // 当前登录用户信息

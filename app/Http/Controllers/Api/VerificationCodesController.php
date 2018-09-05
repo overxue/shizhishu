@@ -16,9 +16,10 @@ class VerificationCodesController extends Controller
         if (!$captchaData) {
             return $this->response->error('图片验证码已失效', 422);
         }
-        // 验证错误就清除缓存
-        \Cache::forget($request->captcha_key);
+
         if (!hash_equals($captchaData['code'], $request->captcha_code)) {
+            // 验证错误就清除缓存
+            \Cache::forget($request->captcha_key);
             return $this->response->errorUnauthorized('验证码错误');
         }
         $phone = $captchaData['phone'];
@@ -33,6 +34,8 @@ class VerificationCodesController extends Controller
         $expiredAt = now()->addMinute(10);
         // 缓存验证码 10 分钟过期
         \Cache::put($key, ['phone' => $phone, 'code' => $code], $expiredAt);
+        // 清除图片验证码缓存
+        \Cache::forget($request->captcha_key);
 
         return $this->response->array([
             'key' => $key,
