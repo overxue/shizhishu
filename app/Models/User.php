@@ -38,6 +38,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Coupon::class, 'user_coupons')->withTimestamps();
     }
 
+    public function Carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
