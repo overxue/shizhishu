@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\CartRequest;
 use App\Models\Cart;
+use App\Transformers\CartTransformer;
 use Illuminate\Http\Request;
 
 class CartsController extends Controller
@@ -23,5 +24,10 @@ class CartsController extends Controller
             $cart->save();
         }
         return $this->response->noContent()->setStatusCode(201);
+    }
+
+    public function get()
+    {
+        return $this->response->collection($this->user()->carts, new CartTransformer());
     }
 }
