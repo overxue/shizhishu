@@ -80,6 +80,9 @@ $api->version('v1', [
             // 用户已领取的优惠券
             $api->get('user/coupons', 'CouponsController@userIndex')
                 ->name('api.coupons.userIndex');
+            // 添加购物车
+            $api->post('carts', 'CartsController@store')
+                ->name('api.carts.store');
         });
     });
 });
