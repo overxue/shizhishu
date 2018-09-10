@@ -30,4 +30,11 @@ class CartsController extends Controller
     {
         return $this->response->collection($this->user()->carts, new CartTransformer());
     }
+
+    public function destory(Cart $cart)
+    {
+        $this->authorize('destory', $cart);
+        $cart->delete();
+        return $this->response->noContent();
+    }
 }

@@ -12,11 +12,11 @@ class AddressPolicy
 
     public function update(User $user, Address $address)
     {
-        return $address->user_id == $user->id;
+        return $user->isAuthorOf($address);
     }
 
     public function destory(User $user, Address $address)
     {
-        return $address->user_id == $user->id;
+        return $user->isAuthorOf($address);
     }
 }

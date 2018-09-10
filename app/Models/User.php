@@ -43,6 +43,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Cart::class);
     }
 
+    public function isAuthorOf($model)
+    {
+        return $this->id == $model->user_id;
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

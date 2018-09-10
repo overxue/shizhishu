@@ -83,9 +83,11 @@ $api->version('v1', [
             // 添加购物车
             $api->post('carts', 'CartsController@store')
                 ->name('api.carts.store');
-            // 购物车页面
+            // 购物车商品列表
             $api->get('carts', 'CartsController@get')
                 ->name('api.carts.get');
+            // 删除购物车中的商品
+            $api->delete('carts/{cart}', 'CartsController@destory');
         });
     });
 });

@@ -15,6 +15,8 @@ class CartTransformer extends TransformerAbstract
             'id' => $cart->id,
             'product_id' => $cart->product_id,
             'amount' => $cart->amount,
+            'select' => false,
+            'money' => number_format($cart->amount * $cart->product->price, 2, '.', ''),
         ];
     }
 
