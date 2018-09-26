@@ -19,4 +19,9 @@ class AddressPolicy
     {
         return $user->isAuthorOf($address);
     }
+
+    public function show(User $user, Address $address)
+    {
+        return $user->isAuthorOf($address);
+    }
 }

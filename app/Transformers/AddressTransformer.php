@@ -11,10 +11,13 @@ class AddressTransformer extends TransformerAbstract
     {
         return [
             'id' => $address->id,
-            'user_id' => $address->user_id,
             'contact_name' => $address->contact_name,
             'contact_phone' => $address->contact_phone,
-            'address' => $address->fulladdress,
+            'province' => $address->province,
+            'city' => $address->city,
+            'district' => $address->district,
+            'address' => $address->address,
+            'fulladdress' => $address->fulladdress,
             'default_address' => (Boolean) $address->default_address
         ];
     }

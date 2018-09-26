@@ -62,6 +62,9 @@ $api->version('v1', [
             // 当前登录用户地址列表
             $api->get('user/addresses', 'AddressesController@userIndex')
                 ->name('api.addresses.userIndex');
+            // 根据 id 获取单个地址
+            $api->get('addresses/{address}', 'AddressesController@show')
+                ->name('api.addresses.show');
             // 新增地址
             $api->post('addresses', 'AddressesController@store')
                 ->name('api.addresses.store');
@@ -88,6 +91,9 @@ $api->version('v1', [
                 ->name('api.carts.get');
             // 删除购物车中的商品
             $api->delete('carts/{cart}', 'CartsController@destory');
+            // 购物车商品总数
+            $api->get('carts/count', 'CartsController@count')
+                ->name('api.carts.count');
         });
     });
 });

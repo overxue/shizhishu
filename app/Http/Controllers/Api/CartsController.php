@@ -28,7 +28,16 @@ class CartsController extends Controller
 
     public function get()
     {
-        return $this->response->collection($this->user()->carts, new CartTransformer());
+        return $this->response->collection($this->user()->carts()->orderBy('id', 'desc')->get(), new CartTransformer());
+    }
+
+    public function count ()
+    {
+        $total = $this->user()->carts()->count();
+
+        return $this->response->array([
+            'total' => $total
+        ]);
     }
 
     public function destory(Cart $cart)

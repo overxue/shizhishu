@@ -14,6 +14,7 @@ class AddressesController extends Controller
         $addresses = $this->user()->addresses()
                         ->orderBy('default_address', 'desc')
                         ->orderBy('last_used_at', 'desc')
+                        ->latest()
                         ->get();
         return $this->response->collection($addresses, new AddressTransformer());
     }
@@ -51,6 +52,13 @@ class AddressesController extends Controller
         $address->where('user_id', $this->user()->id)->update(['default_address' => false]);
         $address->update(['default_address' => true]);
         // update addresses set default_address = (case when id = 3 then 1 else 0 end) where user_id = 5
+        return $this->response->item($address, new AddressTransformer());
+    }
+
+    public function show(Address $address)
+    {
+        $this->authorize('show', $address);
+
         return $this->response->item($address, new AddressTransformer());
     }
 }
