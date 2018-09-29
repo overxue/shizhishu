@@ -51,25 +51,7 @@ class CouponsController extends Controller
 
     public function userIndex(Request $request)
     {
-        $coupons = $this->user()->coupons();
-
-        if ($request->type == 1) {
-            // 已使用
-            $coupon = $coupons->where('is_used', 1)->get();
-        } elseif ($request->type == 2) {
-            // 过期优惠券
-            $coupon = $coupons->where([
-                ['not_after', '<', Carbon::now()],
-                ['is_used', 0],
-            ])->get();
-        } else {
-            // 未过期优惠券
-            $coupon = $coupons->where([
-                ['not_after', '>', Carbon::now()],
-                ['is_used', 0],
-            ])->get();
-        }
-
-        return $this->response->collection($coupon, new CouponTransformer());
+        $coupons = $this->user()->coupons()->get();
+        return $this->response->collection($coupons, new CouponTransformer);
     }
 }
