@@ -18,6 +18,7 @@ class AddressTransformer extends TransformerAbstract
             'district' => $address->district,
             'address' => $address->address,
             'fulladdress' => $address->fulladdress,
+            'last_used' => $address->last_used_at ? $address->last_used_at->toDateTimeString() : null,
             'default_address' => (Boolean) $address->default_address
         ];
     }

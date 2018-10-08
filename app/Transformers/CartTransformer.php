@@ -11,12 +11,13 @@ class CartTransformer extends TransformerAbstract
 
     public function transform(Cart $cart)
     {
+        $price = $cart->product->unit == '斤' ? $cart->product->price / 500 : $cart->product->price;
         return [
             'id' => $cart->id,
             'product_id' => $cart->product_id,
             'amount' => $cart->amount,
             'select' => false,
-            'money' => number_format($cart->amount * $cart->product->price, 2, '.', ''),
+            'money' => sprintf("%.2f", $price * 1),
         ];
     }
 

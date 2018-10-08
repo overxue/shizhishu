@@ -61,4 +61,17 @@ class AddressesController extends Controller
 
         return $this->response->item($address, new AddressTransformer());
     }
+
+    public function order() {
+        $address = $this->user()->addresses()
+            ->orWhere(function ($query) {
+                $query->where('default_address', 1);
+            })
+            ->whereNotNull('last_used_at')
+            ->orderBy('default_address', 'desc')
+            ->orderBy('last_used_at', 'desc')
+            ->first();
+
+        return $this->response->item($address, new AddressTransformer());
+    }
 }
