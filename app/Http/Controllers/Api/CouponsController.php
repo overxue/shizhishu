@@ -49,9 +49,20 @@ class CouponsController extends Controller
         return $this->response->created();
     }
 
-    public function userIndex(Request $request)
+    public function userIndex()
     {
         $coupons = $this->user()->coupons()->get();
         return $this->response->collection($coupons, new CouponTransformer);
+    }
+
+    public function order(Request $request)
+    {
+        $total = $this->user()->coupons()->where([
+            ['not_after', '>', Carbon::now()],
+            ['is_used', 0],
+            ['min_amount', '<=', $request->total]
+        ])->count();
+
+        return $this->response->array(['tot' => $total]);
     }
 }

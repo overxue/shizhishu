@@ -86,6 +86,9 @@ $api->version('v1', [
             // 用户已领取的优惠券
             $api->get('user/coupons', 'CouponsController@userIndex')
                 ->name('api.coupons.userIndex');
+            // 下单页面购物券有几张可用
+            $api->post('order/coupons', 'CouponsController@order')
+                ->name('api.coupons.order');
             // 添加购物车
             $api->post('carts', 'CartsController@store')
                 ->name('api.carts.store');
