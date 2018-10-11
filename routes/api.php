@@ -100,6 +100,9 @@ $api->version('v1', [
             // 购物车商品总数
             $api->get('carts/count', 'CartsController@count')
                 ->name('api.carts.count');
+            // 下单
+            $api->post('orders', 'OrdersController@store')
+                ->name('api.orders.store');
         });
     });
 });

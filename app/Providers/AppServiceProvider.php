@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // \App\Models\UserCoupon::observe(\App\Observers\UserCouponObserver::class);
+         \App\Models\Order::observe(\App\Observers\OrderObserver::class);
     }
 
     /**
