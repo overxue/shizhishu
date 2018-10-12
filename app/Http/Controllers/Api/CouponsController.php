@@ -52,7 +52,7 @@ class CouponsController extends Controller
     public function userIndex()
     {
         $coupons = $this->user()->coupons()->get();
-        dd($coupons);
+
         return $this->response->collection($coupons, new CouponTransformer);
     }
 

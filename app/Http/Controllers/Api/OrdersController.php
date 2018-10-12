@@ -51,23 +51,21 @@ class OrdersController extends Controller
             }
             if ($request->coupon) {
                 $cou = $coupon->find($request->coupon);
-                if ($totalAmount >= $cou->min_amount) {
-                    $mon = $cou->money;
-                } else {
-                    $mon = 0;
-                }
+                $mon = $totalAmount >= $cou->min_amount ? $cou->money : 0;
+                $this->user()->coupons()->updateExistingPivot($request->coupon, ['is_used' => 1]);
+            } else {
+                $mon = 0;
             }
             // 更新订单总金额
-            $order->update(['total_amount' => $totalAmount - $mon]);
+            $order->update(['total_amount' => sprintf("%.2f", $totalAmount - $mon + 3), 'coupon_id' => $request->coupon]);
 
             // 将下单的商品从购物车中移除
-//            $productIds = collect($request->input('items'))->pluck('id');
-
-//            $user->carts()->whereIn('product_id', $productIds)->delete();
+            $productIds = collect($request->input('items'))->pluck('id');
+            $user->carts()->whereIn('product_id', $productIds)->delete();
 
             return $order;
         });
-        dd($order);
+        
         return app('alipay')->wap([
             'out_trade_no' => $order->no,
             'total_amount' => $order->total_amount,

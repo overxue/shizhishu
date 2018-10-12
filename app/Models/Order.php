@@ -30,7 +30,7 @@ class Order extends Model
         self::SHIP_STATUS_RECEIVED  => '已收货',
     ];
 
-    protected $fillable = ['no', 'address', 'total_amount', 'remark', 'paid_at', 'payment_method','payment_no', 'refund_status', 'refund_no', 'closed', 'reviewed', 'ship_status'];
+    protected $fillable = ['no', 'address', 'total_amount', 'remark', 'paid_at', 'payment_method','payment_no', 'refund_status', 'refund_no', 'closed', 'reviewed', 'ship_status', 'coupon_id'];
 
     protected $casts = [
         'closed' => 'boolean',
@@ -49,6 +49,11 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class);
     }
 
     // 生成订单流水号
