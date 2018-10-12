@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\OrderRequest;
 use App\Models\Address;
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -12,11 +13,11 @@ use Illuminate\Http\Request;
 
 class OrdersController extends Controller
 {
-    public function store(OrderRequest $request, Address $address, Order $order, Product $product, OrderItem $orderItem)
+    public function store(OrderRequest $request, Address $address, Order $order, Product $product, OrderItem $orderItem, Coupon $coupon)
     {
         $user = $this->user();
         // 开启一个数据库事务
-        $order = \DB::transaction(function () use ($user, $request, $address, $order, $product, $orderItem) {
+        $order = \DB::transaction(function () use ($user, $request, $address, $order, $product, $orderItem, $coupon) {
             $addresses = $address->find($request->address_id);
             // 更新此地址的最后使用时间
             $addresses->update(['last_used_at' => Carbon::now()]);
@@ -48,17 +49,29 @@ class OrdersController extends Controller
                 $orderItem->save();
                 $totalAmount += $products->price * $data['amount'];
             }
-
+            if ($request->coupon) {
+                $cou = $coupon->find($request->coupon);
+                if ($totalAmount >= $cou->min_amount) {
+                    $mon = $cou->money;
+                } else {
+                    $mon = 0;
+                }
+            }
             // 更新订单总金额
-            $order->update(['total_amount' => $totalAmount]);
+            $order->update(['total_amount' => $totalAmount - $mon]);
 
             // 将下单的商品从购物车中移除
-            $productIds = collect($request->input('items'))->pluck('id');
+//            $productIds = collect($request->input('items'))->pluck('id');
 
-            $user->carts()->whereIn('product_id', $productIds)->delete();
+//            $user->carts()->whereIn('product_id', $productIds)->delete();
 
             return $order;
         });
-        return ['success'];
+        dd($order);
+        return app('alipay')->wap([
+            'out_trade_no' => $order->no,
+            'total_amount' => $order->total_amount,
+            'subject' => '食之蔬',
+        ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 
 class OrderRequest extends FormRequest
@@ -31,6 +32,19 @@ class OrderRequest extends FormRequest
                     }
                     if (!$product->on_sale) {
                         $fail('该商品已下架');
+                        return;
+                    }
+                }
+            ],
+            'remark' => ['max: 250'],
+            'coupon' => [
+                function ($attribute, $value, $fail) {
+                    if (!$value) {
+                        return;
+                    }
+                    $coupon = $this->user()->coupons()->where([['is_used', 0], ['coupon_id', $value], ['not_after', '>', Carbon::now()]])->get();
+                    if ($coupon->isEmpty()) {
+                        $fail('优惠券错误');
                         return;
                     }
                 }

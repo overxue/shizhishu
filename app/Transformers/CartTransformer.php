@@ -17,7 +17,7 @@ class CartTransformer extends TransformerAbstract
             'product_id' => $cart->product_id,
             'amount' => $cart->amount,
             'select' => false,
-            'money' => sprintf("%.2f", $price * 1),
+            'money' => sprintf("%.2f", $price * $cart->amount),
         ];
     }
 
