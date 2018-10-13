@@ -52,7 +52,9 @@ class OrdersController extends Controller
             if ($request->coupon) {
                 $cou = $coupon->find($request->coupon);
                 $mon = $totalAmount >= $cou->min_amount ? $cou->money : 0;
-                $this->user()->coupons()->updateExistingPivot($request->coupon, ['is_used' => 1]);
+                if ($totalAmount >= $cou->min_amount) {
+                    $this->user()->coupons()->updateExistingPivot($request->coupon, ['is_used' => 1]);
+                }
             } else {
                 $mon = 0;
             }
@@ -65,11 +67,14 @@ class OrdersController extends Controller
 
             return $order;
         });
-        
-        return app('alipay')->wap([
-            'out_trade_no' => $order->no,
-            'total_amount' => $order->total_amount,
-            'subject' => '食之蔬',
+        $alipay = app('alipay')->wap([
+                    'out_trade_no' => $order->no,
+                    'total_amount' => $order->total_amount,
+                    'subject' => '食之蔬',
+                ]);
+        return $this->response->array([
+            'form' => $alipay->getContent(),
+            'order_status' => 0
         ]);
     }
 }

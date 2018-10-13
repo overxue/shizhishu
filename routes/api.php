@@ -42,7 +42,9 @@ $api->version('v1', [
         'expires' => config('api.rate_limits.access.expires'),
     ], function ($api) {
         // 游客可以访问的接口
-
+        // 支付宝后端回调
+        $api->post('payment/alipay/notify', 'PaymentsController@alipayNotify')
+            ->name('api.payment.notify');
         // 获取首页banner图
         $api->get('banners', 'BannersController@index')
             ->name('api.banners.index');
@@ -103,6 +105,9 @@ $api->version('v1', [
             // 下单
             $api->post('orders', 'OrdersController@store')
                 ->name('api.orders.store');
+            // 支付宝前端回调
+            $api->get('payment/alipay/return', 'PaymentsController@alipayReturn')
+                ->name('api.payment.alipayReturn');
         });
     });
 });

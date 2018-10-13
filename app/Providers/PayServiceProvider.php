@@ -28,8 +28,8 @@ class PayServiceProvider extends ServiceProvider
         // 往服务容器中注入一个名为 alipay 的单例对象
         $this->app->singleton('alipay', function ($app) {
             $config = config('pay.alipay');
-            $config['notify_url'] = route('payment.alipay.notify');
-            $config['return_url'] = 'http://192.168.10.1:8080/';
+            $config['notify_url'] = 'http://requestbin.leo108.com/16d3o911';
+            $config['return_url'] = 'http://127.0.0.1:8080/shop/pay/success';
             // 判断当前项目运行环境是否为线上环境
             if (app()->environment() !== 'production') {
                 $config['mode']         = 'dev';
