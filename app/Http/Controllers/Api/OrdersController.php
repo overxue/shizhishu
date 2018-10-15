@@ -11,6 +11,7 @@ use App\Models\Product;
 use Carbon\Carbon;
 use App\Transformers\OrderTransformer;
 use Illuminate\Http\Request;
+use App\Jobs\CloseOrder;
 
 class OrdersController extends Controller
 {
@@ -71,6 +72,7 @@ class OrdersController extends Controller
 
             return $order;
         });
+        $this->dispatch(new CloseOrder($order, 1800));
         $alipay = app('alipay')->wap([
                     'out_trade_no' => $order->no,
                     'total_amount' => $order->total_amount,
