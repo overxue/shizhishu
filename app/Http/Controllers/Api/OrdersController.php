@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use Carbon\Carbon;
+use App\Transformers\OrderTransformer;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -40,15 +41,18 @@ class OrdersController extends Controller
             foreach ($items as $data) {
                 $products  = $product->find($data['id']);
                 // 创建一个 OrderItem 并直接与当前订单关联
-                $orderItem->fill([
-                    'product_id' => $products->id,
+                $item = $order->orderItems()->make([
                     'amount' => $data['amount'],
                     'price' => $products->price,
                 ]);
-                $orderItem->order_id = $order->id;
-                $orderItem->save();
-                $totalAmount += $products->price * $data['amount'];
+                $item->product()->associate($products->id);
+                $item->order()->associate($order->id);
+                $item->save();
+
+                $price = $products->unit == '斤' ? $products->price / 500 : $products->price;
+                $totalAmount += $price * $data['amount'];
             }
+
             if ($request->coupon) {
                 $cou = $coupon->find($request->coupon);
                 $mon = $totalAmount >= $cou->min_amount ? $cou->money : 0;
@@ -76,5 +80,12 @@ class OrdersController extends Controller
             'form' => $alipay->getContent(),
             'order_status' => 0
         ]);
+    }
+
+    public function index(Order $order)
+    {
+        $ord = $order->where('user_id', $this->user()->id)->orderBy('created_at', 'desc')->get();
+
+        return $this->response->collection($ord, new OrderTransformer());
     }
 }

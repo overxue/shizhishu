@@ -13,7 +13,7 @@ class Address extends Model
 
     protected $dates = ['last_used_at'];
 
-    protected $cats = [
+    protected $casts = [
         'default_address' => 'boolean'
     ];
 

@@ -105,6 +105,9 @@ $api->version('v1', [
             // 下单
             $api->post('orders', 'OrdersController@store')
                 ->name('api.orders.store');
+            // 订单列表
+            $api->get('orders', 'OrdersController@index')
+                ->name('api.orders.index');
             // 支付宝前端回调
             $api->get('payment/alipay/return', 'PaymentsController@alipayReturn')
                 ->name('api.payment.alipayReturn');
