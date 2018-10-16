@@ -72,7 +72,9 @@ class OrdersController extends Controller
 
             return $order;
         });
+
         $this->dispatch(new CloseOrder($order, 1800));
+
         $alipay = app('alipay')->wap([
                     'out_trade_no' => $order->no,
                     'total_amount' => $order->total_amount,
@@ -89,5 +91,13 @@ class OrdersController extends Controller
         $ord = $order->where('user_id', $this->user()->id)->orderBy('created_at', 'desc')->get();
 
         return $this->response->collection($ord, new OrderTransformer());
+    }
+
+    public function update(Order $order)
+    {
+        $this->authorize('update', $order);
+
+        $order->update(['closed' => true]);
+        return $this->response->item($order, new OrderTransformer());
     }
 }

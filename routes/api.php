@@ -108,6 +108,9 @@ $api->version('v1', [
             // 订单列表
             $api->get('orders', 'OrdersController@index')
                 ->name('api.orders.index');
+            // 取消订单
+            $api->patch('orders/{order}', 'OrdersController@update')
+                ->name('api.orders.update');
             // 支付宝前端回调
             $api->get('payment/alipay/return', 'PaymentsController@alipayReturn')
                 ->name('api.payment.alipayReturn');
