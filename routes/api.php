@@ -111,6 +111,9 @@ $api->version('v1', [
             // 取消订单
             $api->patch('orders/{order}', 'OrdersController@update')
                 ->name('api.orders.update');
+            // 删除订单
+            $api->delete('orders/{order}', 'OrdersController@destroy')
+                ->name('api.orders.destory')
             // 支付宝前端回调
             $api->get('payment/alipay/return', 'PaymentsController@alipayReturn')
                 ->name('api.payment.alipayReturn');

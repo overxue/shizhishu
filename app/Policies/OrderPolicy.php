@@ -14,4 +14,9 @@ class OrderPolicy
     {
         return $user->isAuthorOf($order);
     }
+
+    public function destroy(User $user, Order $order)
+    {
+        return $user->isAuthorOf($order);
+    }
 }

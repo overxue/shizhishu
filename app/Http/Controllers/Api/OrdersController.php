@@ -100,4 +100,12 @@ class OrdersController extends Controller
         $order->update(['closed' => true]);
         return $this->response->item($order, new OrderTransformer());
     }
+
+    public function destroy(Order $order)
+    {
+        $this->authorize('destroy', $order);
+        $order->delete();
+
+        return $this->response->noContent();
+    }
 }
