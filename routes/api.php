@@ -108,12 +108,17 @@ $api->version('v1', [
             // 订单列表
             $api->get('orders', 'OrdersController@index')
                 ->name('api.orders.index');
+            // 订单详情
+            $api->get('orders/{order}', 'OrdersController@show');
             // 取消订单
             $api->patch('orders/{order}', 'OrdersController@update')
                 ->name('api.orders.update');
             // 删除订单
             $api->delete('orders/{order}', 'OrdersController@destroy')
-                ->name('api.orders.destory')
+                ->name('api.orders.destory');
+            // 订单页面支付
+            $api->get('orders/pay/{order}', 'OrdersController@pay')
+                ->name('api.orders.pay');
             // 支付宝前端回调
             $api->get('payment/alipay/return', 'PaymentsController@alipayReturn')
                 ->name('api.payment.alipayReturn');

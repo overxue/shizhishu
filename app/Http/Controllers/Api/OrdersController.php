@@ -72,18 +72,9 @@ class OrdersController extends Controller
 
             return $order;
         });
-
         $this->dispatch(new CloseOrder($order, 1800));
 
-        $alipay = app('alipay')->wap([
-                    'out_trade_no' => $order->no,
-                    'total_amount' => $order->total_amount,
-                    'subject' => '食之蔬',
-                ]);
-        return $this->response->array([
-            'form' => $alipay->getContent(),
-            'order_status' => 0
-        ]);
+        return $this->alipay($order);
     }
 
     public function index(Order $order)
@@ -107,5 +98,29 @@ class OrdersController extends Controller
         $order->delete();
 
         return $this->response->noContent();
+    }
+
+    public function pay(Order $order)
+    {
+        return $this->alipay($order);
+    }
+
+    public function show(Order $order)
+    {
+        return $this->response->item($order, new OrderTransformer());
+    }
+
+    public function alipay($order)
+    {
+        $alipay = app('alipay')->wap([
+                    'out_trade_no' => $order->no,
+                    'total_amount' => $order->total_amount,
+                    'subject' => '食之蔬',
+                ]);
+
+        return $this->response->array([
+            'form' => $alipay->getContent(),
+            'order_status' => 0
+        ]);
     }
 }
