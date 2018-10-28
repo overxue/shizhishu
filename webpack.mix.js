@@ -22,5 +22,4 @@ mix.webpackConfig({
 
 mix.js('resources/assets/js/main.js', 'public/js')
    .stylus('resources/assets/stylus/index.styl', 'public/css')
-   .stylus('resources/assets/stylus/element.styl', 'public/css')
    .extract(['vue'])

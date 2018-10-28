@@ -9,7 +9,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/index.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/element.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app"></div>

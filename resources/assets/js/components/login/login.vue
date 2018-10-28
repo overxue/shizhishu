@@ -1,7 +1,9 @@
 <template>
   <div class="login">
     <div class="login-container">
-      <h1 class="title">食之蔬</h1>
+      <h1 class="title">
+        <img width="120" height="120" src="./login.png" class="avatar-item">
+      </h1>
       <el-form :model="loginForm" :rules="loginRules" ref="loginForm">
 
         <el-form-item prop="username">
@@ -17,11 +19,11 @@
           </span>
           <el-input v-model="loginForm.password" :type="passwordType" placeholder="请输入密码" @keyup.enter.native="submitLogin"></el-input>
           <span class="icon-hidden" @click="showPwd">
-            <i class="iconfont">&#xe623;</i>
+            <i class="iconfont" v-html="icon"></i>
           </span>
         </el-form-item>
 
-        <el-button type="primary" :loading="loading" style="width: 100%" @click="submitLogin">登录</el-button>
+        <el-button type="primary" :disabled="showLogin" :loading="loading" @click="submitLogin">登录</el-button>
 
       </el-form>
     </div>
@@ -45,14 +47,25 @@ export default {
         ]
       },
       passwordType: 'password',
-      loading: false
+      loading: false,
+      icon: '&#xe70f;'
+    }
+  },
+  computed: {
+    showLogin () {
+      if (this.loginForm.username && this.loginForm.password) {
+        return false
+      }
+      return true
     }
   },
   methods: {
     showPwd () {
       if (this.passwordType === 'password') {
+        this.icon = '&#xe623;'
         this.passwordType = ''
       } else {
+        this.icon = '&#xe70f;'
         this.passwordType = 'password'
       }
     },
@@ -71,24 +84,19 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "~common/stylus/variable"
   .login
     position: fixed
     width: 100%
     height: 100%
-    background: $color-background
     .login-container
       position: absolute
       top: 40%
       left: 50%
       transform: translate(-50%,-50%)
-      width: 450px
+      min-width: 450px
       .title
-        font-size: 26px
-        color: #eee
-        margin-bottom: 40px
+        margin-bottom: 20px
         text-align: center
-        font-weight: bold
       .icon
         display: inline-block
         padding: 0 0 0 15px
@@ -96,30 +104,27 @@ export default {
       .icon-hidden
         display: inline-block
         padding-right: 10px
-        cursor: pointer;
+        cursor: pointer
         color: #889aa4
 </style>
 
 <style lang="stylus" rel="stylesheet/stylus">
   /* reset element-ui css */
-  @import "~common/stylus/variable"
   .login
     .el-form-item
-      border: 1px solid rgba(255, 255, 255, 0.1)
-      background: rgba(0, 0, 0, 0.1)
+      border: 1px solid #dcdfe6
       border-radius: 5px
-      color: #454545
       .el-form-item__content
         line-height: 47px
       .el-input
         width: 85%
         height: 47px
         input
-          background: transparent
           border: 0px
-          -webkit-appearance: none
           border-radius: 0px
           padding: 12px 5px 12px 15px
-          color: #eee
           height: 47px
+    .el-button
+      margin-top: 10px
+      width: 100%
 </style>
