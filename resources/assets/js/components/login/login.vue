@@ -88,12 +88,16 @@ export default {
     position: fixed
     width: 100%
     height: 100%
+    background-image: url("./background.jpg")
     .login-container
       position: absolute
-      top: 40%
+      top: 50%
       left: 50%
       transform: translate(-50%,-50%)
+      background: #fff
       min-width: 450px
+      box-shadow: 0 0 25px #cac6c6
+      padding: 30px
       .title
         margin-bottom: 20px
         text-align: center
