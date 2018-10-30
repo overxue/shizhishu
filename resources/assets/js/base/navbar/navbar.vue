@@ -58,9 +58,9 @@ export default {
   .navbar
     display: flex
     justify-content: space-between
-    position: absolute
-    top: 0
-    left: 0
+    /*position: absolute*/
+    /*top: 0*/
+    /*left: 0*/
     height: 50px
     width: 100%
     border-bottom: 1px solid #f2f2f2

@@ -5,6 +5,7 @@
     </div>
     <div class="main-container" :class="{'hide-slider': isCollapse}">
       <navbar @toggle="toggle" @scree="scree" :isCollapse="isCollapse"></navbar>
+      <tags-view></tags-view>
     </div>
   </div>
 </template>
@@ -12,6 +13,7 @@
 <script>
 import Slider from 'base/slider/slider'
 import Navbar from 'base/navbar/navbar'
+import TagsView from 'base/tags-view/tags-view'
 import screenfull from 'screenfull'
 
 export default {
@@ -34,7 +36,8 @@ export default {
   },
   components: {
     Slider,
-    Navbar
+    Navbar,
+    TagsView
   }
 }
 </script>
