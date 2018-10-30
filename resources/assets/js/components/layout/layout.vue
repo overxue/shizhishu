@@ -4,7 +4,7 @@
       <slider :isCollapse="isCollapse"></slider>
     </div>
     <div class="main-container" :class="{'hide-slider': isCollapse}">
-      <navbar @toggle="toggle" :isCollapse="isCollapse"></navbar>
+      <navbar @toggle="toggle" @scree="scree" :isCollapse="isCollapse"></navbar>
     </div>
   </div>
 </template>
@@ -12,6 +12,7 @@
 <script>
 import Slider from 'base/slider/slider'
 import Navbar from 'base/navbar/navbar'
+import screenfull from 'screenfull'
 
 export default {
   data () {
@@ -22,6 +23,13 @@ export default {
   methods: {
     toggle () {
       this.isCollapse = !this.isCollapse
+    },
+    scree () {
+      if (!screenfull.enabled) {
+        this.$message.warning('浏览器不支持全屏')
+        return false
+      }
+      screenfull.toggle()
     }
   },
   components: {
@@ -36,9 +44,10 @@ export default {
     position: absolute
     top: 0
     left: 0
-    width: 100%
+    right: 0
     bottom: 0
-    .sidebar-container, .main-container
+    overflow: hidden
+    .sidebar-container
       position: fixed
       top: 0
       left: 0
@@ -49,11 +58,13 @@ export default {
       &.hide-slider
         width: 64px
     .main-container
+      position: fixed
       left: 180px
-      width: 100%
+      right: 0
+      top: 0
+      bottom: 0
       background: #fff
       transition: left .28s
       &.hide-slider
         left: 64px
-        width: 100%
 </style>
