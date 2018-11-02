@@ -6,6 +6,13 @@
     <div class="main-container" :class="{'hide-slider': isCollapse}">
       <navbar @toggle="toggle" @scree="scree" :isCollapse="isCollapse"></navbar>
       <tags-view></tags-view>
+      <div class="app-main">
+        <transition name="fade-transform" mode="out-in">
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -70,4 +77,19 @@ export default {
       transition: left .28s
       &.hide-slider
         left: 64px
+    .app-main
+      position: absolute
+      top: 87px
+      right: 0
+      left: 0
+      bottom: 0
+      background: #f0f2f5
+      &.fade-transform-leave-active, &.fade-transform-enter-active
+        transition: all .5s
+      &.fade-transform-enter
+        opacity: 0
+        transform: translateX(-30px)
+      &.fade-transform-leave-to
+        opacity: 0
+        transform: translateX(30px)
 </style>
