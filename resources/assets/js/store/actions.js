@@ -1,1 +1,13 @@
 import * as types from './mutation-types'
+import { saveAccessToken, saveExpiresIn } from 'common/js/cache'
+import dayjs from 'dayjs'
+
+export const saveToken = function ({ commit }, { token, time }) {
+  let times = dayjs().add(time, 'second').valueOf()
+  commit(types.SET_ACCESS_TOKEN, saveAccessToken(token))
+  commit(types.SET_EXPIRES_AT, saveExpiresIn(times))
+}
+
+export const saveUserInfo = function ({ commit }, { name, phone }) {
+  commit(types.SET_USER_INFO, { name, phone })
+}

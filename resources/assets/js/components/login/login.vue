@@ -31,12 +31,15 @@
 </template>
 
 <script>
+import { login } from 'api/login'
+import { mapActions } from 'vuex'
+
 export default {
   data () {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: '18656085176',
+        password: '123456'
       },
       loginRules: {
         username: [
@@ -73,12 +76,30 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          login(this.loginForm.username, this.loginForm.password).then((res) => {
+            this.saveToken({
+              token: res.meta.access_token,
+              time: res.meta.expires_in
+            })
+            this.saveUserInfo({
+              name: res.name,
+              phone: res.phone
+            })
+            this.loading = false
+            this.$router.push({ path: '/' })
+          }).catch(() => {
+            this.loading = false
+          })
         } else {
           console.log('error submit!!')
           return false
         }
       })
-    }
+    },
+    ...mapActions([
+      'saveToken',
+      'saveUserInfo'
+    ])
   }
 }
 </script>
@@ -111,7 +132,6 @@ export default {
         cursor: pointer
         color: #889aa4
 </style>
-
 <style lang="stylus" rel="stylesheet/stylus">
   /* reset element-ui css */
   .login

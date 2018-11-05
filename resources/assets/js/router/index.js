@@ -3,6 +3,7 @@ import Router from 'vue-router'
 const Login = () => import('components/login/login')
 const Layout = () => import('components/layout/layout')
 const Dashboard = () => import('components/dashboard/dashboard')
+const Banner = () => import('components/banner/banner')
 
 Vue.use(Router)
 
@@ -20,8 +21,8 @@ export const RouterMap = [
         meta: { title: '首页', icon: 'dashboard', noCache: true }
       },
       {
-        path: '/hah',
-        component: Dashboard
+        path: '/banner',
+        component: Banner
       }
     ]
   },
