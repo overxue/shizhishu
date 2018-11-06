@@ -7,7 +7,8 @@ mix.webpackConfig({
       'components': 'assets/js/components',
       'api': 'assets/js/api',
       'common': 'assets/js/common',
-      'base': 'assets/js/base'
+      'base': 'assets/js/base',
+      'store': 'assets/js/store'
     },
     modules: [
       'node_modules',

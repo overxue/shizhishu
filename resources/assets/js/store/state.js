@@ -1,4 +1,5 @@
 import { RouterMap } from '../router'
+import { loadAccessToken, loadExpiresIn } from 'common/js/cache'
 
 const state = {
   // 个人信息
@@ -7,9 +8,9 @@ const state = {
     phone: ''
   },
   // access_token
-  accessToken: '',
+  accessToken: loadAccessToken(),
   // 过期时间
-  expiredAt: '',
+  expiredAt: loadExpiresIn(),
   routers: RouterMap
 }
 

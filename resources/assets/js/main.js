@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 import Element from 'element-ui'
 
+import 'common/js/permission'
+
 Vue.use(Element)
 
 Vue.config.productionTip = false

@@ -11,3 +11,10 @@ export function login (username, password) {
   })
 }
 
+export function refreshToken () {
+  return request({
+    url: '/api/authorizations/current',
+    method: 'put'
+  })
+}
+
