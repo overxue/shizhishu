@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Banner;
 use App\Transformers\BannerTransformer;
-use Illuminate\Http\Request;
 
 class BannersController extends Controller
 {

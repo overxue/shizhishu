@@ -1,7 +1,4 @@
 <?php
-
-use Illuminate\Http\Request;
-
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
@@ -123,5 +120,16 @@ $api->version('v1', [
             $api->get('payment/alipay/return', 'PaymentsController@alipayReturn')
                 ->name('api.payment.alipayReturn');
         });
+    });
+
+    // 后台调用的接口
+    $api->group([
+        'middleware' => ['api.throttle', 'api.auth'],
+        'limit' => config('api.rate_limits.access.limit'),
+        'expires' => config('api.rate_limits.access.expires'),
+    ], function ($api) {
+        // banner图列表
+        $api->get('/admin/banners', 'Admin\BannersController@index')
+            ->name('api.admin.banners.index');
     });
 });
