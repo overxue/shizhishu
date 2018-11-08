@@ -128,8 +128,9 @@ $api->version('v1', [
         'limit' => config('api.rate_limits.access.limit'),
         'expires' => config('api.rate_limits.access.expires'),
     ], function ($api) {
-        // banner图列表
-        $api->get('/admin/banners', 'Admin\BannersController@index')
-            ->name('api.admin.banners.index');
+        // banner 图列表
+        $api->get('admin/banners', 'Admin\BannersController@index');
+        // 隐藏 banner
+        $api->post('admin/banners/{banner}/onShow', 'Admin\BannersController@onShow');
     });
 });
