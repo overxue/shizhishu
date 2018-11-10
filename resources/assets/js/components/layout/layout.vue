@@ -65,6 +65,7 @@ export default {
       bottom: 0
       background: #304156
       transition: width .28s
+      z-index: 10
       &.hide-slider
         width: 64px
     .main-container
@@ -84,12 +85,12 @@ export default {
       left: 0
       bottom: 0
       /*background: #f0f2f5*/
-      &.fade-transform-leave-active, &.fade-transform-enter-active
+      .fade-transform-leave-active, .fade-transform-enter-active
         transition: all .5s
-      &.fade-transform-enter
+      .fade-transform-enter
         opacity: 0
         transform: translateX(-30px)
-      &.fade-transform-leave-to
+      .fade-transform-leave-to
         opacity: 0
         transform: translateX(30px)
 </style>
