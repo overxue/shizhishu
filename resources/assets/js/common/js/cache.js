@@ -2,6 +2,7 @@ import storage from 'good-storage'
 
 const ACCESS_TOKEN = '__accessToken__'
 const EXPIRES_IN = '__expiresIn__'
+const COLLAPSE = '__collapse__'
 
 export function loadAccessToken () {
   return storage.get(ACCESS_TOKEN, '')
@@ -29,4 +30,12 @@ export function loadExpiresIn () {
 export function clearExpiresIn () {
   storage.remove(EXPIRES_IN)
   return ''
+}
+
+export function loadCollapse () {
+  return storage.get(COLLAPSE, false)
+}
+
+export function saveCollapse (boll) {
+  return storage.set(COLLAPSE, boll)
 }

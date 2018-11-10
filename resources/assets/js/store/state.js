@@ -1,5 +1,5 @@
 import { RouterMap } from '../router'
-import { loadAccessToken, loadExpiresIn } from 'common/js/cache'
+import { loadAccessToken, loadExpiresIn, loadCollapse } from 'common/js/cache'
 
 const state = {
   // 个人信息
@@ -11,7 +11,10 @@ const state = {
   accessToken: loadAccessToken(),
   // 过期时间
   expiredAt: loadExpiresIn(),
-  routers: RouterMap
+  // 路由
+  routers: RouterMap,
+  // 左侧菜单栏是否折叠
+  collapse: loadCollapse()
 }
 
 export default state

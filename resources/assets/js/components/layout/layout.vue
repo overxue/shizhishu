@@ -1,10 +1,10 @@
 <template>
   <div class="layout">
-    <div class="sidebar-container" :class="{'hide-slider': isCollapse}">
-      <slider :isCollapse="isCollapse"></slider>
+    <div class="sidebar-container" :class="{'hide-slider': collapse}">
+      <slider :isCollapse="collapse"></slider>
     </div>
-    <div class="main-container" :class="{'hide-slider': isCollapse}">
-      <navbar @toggle="toggle" @scree="scree" :isCollapse="isCollapse"></navbar>
+    <div class="main-container" :class="{'hide-slider': collapse}">
+      <navbar @toggle="toggle" @scree="scree" :isCollapse="collapse"></navbar>
       <tags-view></tags-view>
       <div class="app-main">
         <transition name="fade-transform" mode="out-in">
@@ -22,16 +22,25 @@ import Slider from 'base/slider/slider'
 import Navbar from 'base/navbar/navbar'
 import TagsView from 'base/tags-view/tags-view'
 import screenfull from 'screenfull'
+import { mapGetters, mapActions } from 'vuex'
+import {collapse} from "../../store/getters";
 
 export default {
-  data () {
-    return {
-      isCollapse: false
-    }
+  // data () {
+  //   return {
+  //     isCollapse: false
+  //   }
+  // },
+  computed: {
+    ...mapGetters([
+      'collapse'
+    ])
+  },
+  created () {
   },
   methods: {
     toggle () {
-      this.isCollapse = !this.isCollapse
+      this.saveCollapse(!this.collapse)
     },
     scree () {
       if (!screenfull.enabled) {
@@ -39,7 +48,10 @@ export default {
         return false
       }
       screenfull.toggle()
-    }
+    },
+    ...mapActions({
+      saveCollapse: 'saveIsCollapse'
+    })
   },
   components: {
     Slider,
