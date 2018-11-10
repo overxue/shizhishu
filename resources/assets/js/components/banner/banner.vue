@@ -35,6 +35,33 @@
         </div>
       </div>
     </transition>
+    <el-dialog title="新增Banner" :visible.sync="dialogFormVisible" :modal-append-to-body='false'>
+      <el-form :model="createBanner">
+        <el-form-item label="图片" label-width="80px">
+          <el-upload
+            style="width: 300px"
+            class="upload-demo"
+            drag
+            :auto-upload="false"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            multiple>
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="是否显示" label-width="80px">
+          <el-switch
+            v-model="createBanner.on_show"
+            active-color="#13ce66"
+            inactive-color="#ff4949">
+          </el-switch>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -49,7 +76,9 @@ export default {
     return {
       banners: [],
       loading: true,
-      url: ''
+      url: '',
+      dialogFormVisible: false,
+      createBanner: {}
     }
   },
   created () {
@@ -79,7 +108,7 @@ export default {
       this.url = ''
     },
     addBanner () {
-      
+      this.dialogFormVisible = true
     }
   }
 }
@@ -109,4 +138,10 @@ export default {
         top: 50%
         left: 50%
         transform: translate(-50%, -50%)
+</style>
+
+<style lang="stylus" rel="stylesheet/stylus">
+  .banner-contant
+    .el-upload-dragger
+      width: 300px
 </style>

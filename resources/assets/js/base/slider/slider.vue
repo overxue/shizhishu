@@ -1,69 +1,66 @@
 <template>
   <el-scrollbar style="height: 100%" class="slider">
     <el-menu
-      default-active="1"
+      :default-active="$route.path"
       background-color="#304156"
       text-color="#bfcbd9"
       active-text-color="#409EFF"
       :collapse="isCollapse"
     >
-      <!--<el-submenu index="1">-->
-      <!--<template slot="title">-->
-        <!--<i class="el-icon-location"></i>-->
-        <!--<span slot="title">导航一</span>-->
-      <!--</template>-->
-      <!--<el-menu-item index="1-1">选项1</el-menu-item>-->
-      <!--<el-menu-item index="1-2">选项2</el-menu-item>-->
-      <!--<el-menu-item index="1-3">选项3</el-menu-item>-->
-    <!--</el-submenu>-->
-      <!--<el-menu-item index="2">-->
-        <!--<i class="el-icon-menu"></i>-->
-        <!--<span slot="title">导航二</span>-->
-      <!--</el-menu-item>-->
-      <!--<el-menu-item index="3">-->
-        <!--<i class="el-icon-document"></i>-->
-        <!--<span slot="title">导航三</span>-->
-      <!--</el-menu-item>-->
-      <el-menu-item index="1">
-        <i class="el-icon-setting"></i>
-        <span slot="title">首页</span>
-      </el-menu-item>
+      <el-submenu :index="item.path" v-if="item.children && item.children.length" v-for="(item, index) of menu" :key="index">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span slot="title">{{item.title}}</span>
+        </template>
+        <router-link :to="child.path" v-for="(child, ind) of item.children" :key="ind">
+          <el-menu-item :index="child.path">{{child.title}}</el-menu-item>
+        </router-link>
+      </el-submenu>
+
+      <router-link v-else :to="item.path" tag="li">
+        <el-menu-item :index="item.path">
+          <i class="el-icon-setting"></i>
+          <span slot="title">{{item.title}}</span>
+        </el-menu-item>
+      </router-link>
     </el-menu>
   </el-scrollbar>
 </template>
 
 <script>
- import {mapGetters}  from 'vuex'
+ import { mapGetters }  from 'vuex'
 
 export default {
   props: {
     isCollapse: Boolean,
     default: false
   },
+  data () {
+    return {
+      menu: []
+    }
+  },
   created () {
-    // const accessedRouters = this.routers.filter((route) => {
-    //     if (route.children && route.children.length) {
-    //       // console.log(route.children)
-    //       route.children = route.children
-    //       return true
-    //     }
-    //   return false
-    // })
-    // console.log(accessedRouters)
-    // console.log(this.filterAsyncRouter(this.routers))
+    // const accessedRouters = this.routers.filter(route => route.children && route.children.length)
+    let menu = []
+    this.routers.map((route) => {
+      if (route.children && route.children.length) {
+        route.children.map((item) => {
+          if (item.children) {
+            let arr = []
+            item.children.map((it) => {
+              arr.push({ title: it.meta.title, path: it.path })
+            })
+            menu.push({ title: item.meta.title, icon: item.meta.icon, path: item.path, children: arr })
+          } else {
+            menu.push({ title: item.meta.title, icon: item.meta.icon, path: item.path })
+          }
+        })
+      }
+    })
+    this.menu = menu
   },
-  methods: {
-    // filterAsyncRouter (asyncRouterMap) {
-    //   const accessedRouters = asyncRouterMap.filter(route => {
-    //       if (route.children && route.children.length) {
-    //         route.children = this.filterAsyncRouter(route.children)
-    //         return true
-    //       }
-    //       return false
-    //   })
-    //   return accessedRouters
-    // }
-  },
+  methods: {},
   computed: {
     ...mapGetters([
       'routers'

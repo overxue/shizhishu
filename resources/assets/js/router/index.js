@@ -15,14 +15,27 @@ export const RouterMap = [
     redirect: 'dashboard',
     children: [
       {
-        path: 'dashboard',
+        path: '/dashboard',
         component: Dashboard,
         name: 'dashboard',
         meta: { title: '首页', icon: 'dashboard', noCache: true }
       },
       {
         path: '/banner',
-        component: Banner
+        component: Banner,
+        name: 'banner',
+        meta: { title: 'Banner', icon: 'banner', noCache: true}
+      },
+      {
+        path: '/test',
+        meta: { title: 'text', icon: 'text', noCache: true},
+        children: [
+          {
+            path: '/test/abc',
+            component: Banner,
+            meta: { title: 'text/abc', icon: 'text', noCache: true}
+          }
+        ]
       }
     ]
   },
