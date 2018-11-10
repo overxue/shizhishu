@@ -1,11 +1,16 @@
 import router from '../../router'
 import store from 'store'
 import dayjs from 'dayjs'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 import { refreshToken } from 'api/login'
+
+NProgress.configure({ showSpinner: false })
 
 const whiteList = ['/login']
 
 router.beforeEach((to, from, next) => {
+  NProgress.start()
   if (store.getters.accessToken) {
     console.log(dayjs(store.getters.expiresAt).format('YYYY-MM-DD HH:mm:ss'))
     if (to.path === '/login') {
@@ -33,4 +38,8 @@ router.beforeEach((to, from, next) => {
       next('/login')
     }
   }
+})
+
+router.afterEach(() => {
+  NProgress.done()
 })
