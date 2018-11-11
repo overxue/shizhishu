@@ -29,10 +29,13 @@ export const RouterMap = [
       {
         path: '/test',
         meta: { title: 'text', icon: 'text', noCache: true},
+        name: 'test',
+        redirect: '/test/abc',
         children: [
           {
             path: '/test/abc',
             component: Banner,
+            name: 'abc',
             meta: { title: 'text/abc', icon: 'text', noCache: true}
           }
         ]

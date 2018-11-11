@@ -6,9 +6,9 @@
       </div>
       <div class="breadcrumb-container">
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-          <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+          <transition-group name="breadcrumb">
+           <el-breadcrumb-item v-for="item  in levelList" :key="item.path" :to="item.path">{{item.meta.title}}</el-breadcrumb-item>
+          </transition-group>
         </el-breadcrumb>
       </div>
     </div>
@@ -43,12 +43,33 @@ export default {
       default: false
     }
   },
+  data () {
+    return {
+      levelList: []
+    }
+  },
+  created () {
+    this.getBreadcrumb()
+  },
   methods: {
     toggle () {
       this.$emit('toggle')
     },
     scree () {
       this.$emit('scree')
+    },
+    getBreadcrumb() {
+      let matched = this.$route.matched.filter(item => item.name)
+      const first = matched[0]
+      if (first && first.name !== 'dashboard') {
+        matched = [{ path: '/dashboard', meta: { title: '首页' }}].concat(matched)
+      }
+      this.levelList = matched
+    }
+  },
+  watch: {
+    $route () {
+      this.getBreadcrumb()
     }
   }
 }
@@ -81,6 +102,15 @@ export default {
         display: inline-block
         vertical-align: top
         margin-left: 10px
+        .breadcrumb-enter-active, .breadcrumb-leave-active
+          transition: all .5s
+        .breadcrumb-enter, .breadcrumb-leave-active
+          opacity: 0
+          transform: translateX(20px)
+        .breadcrumb-move
+          transition: all .5s
+        .breadcrumb-leave-active
+          position: absolute
     .right-menu
       line-height: 50px
       .screenfull

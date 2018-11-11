@@ -6,30 +6,6 @@
         Dashboard
         <span class="el-icon-close"></span>
         </span>
-          <span class="tags-view-item">
-          Haha
-          <span class="el-icon-close"></span>
-        </span>
-          <span class="tags-view-item">
-          Haha
-          <span class="el-icon-close"></span>
-        </span>
-          <span class="tags-view-item">
-          Haha
-          <span class="el-icon-close"></span>
-        </span>
-          <span class="tags-view-item">
-          Haha
-          <span class="el-icon-close"></span>
-        </span>
-          <span class="tags-view-item">
-          Haha
-          <span class="el-icon-close"></span>
-        </span>
-          <span class="tags-view-item">
-          Haha
-          <span class="el-icon-close"></span>
-        </span>
       </div>
     </el-scrollbar>
   </div>
