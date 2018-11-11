@@ -17,3 +17,10 @@ export function refreshToken () {
     method: 'put'
   })
 }
+
+export function loginOut () {
+  return request({
+    url: '/api/authorizations/current',
+    method: 'delete'
+  })
+}

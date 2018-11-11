@@ -26,9 +26,20 @@
           <i class="el-icon-caret-bottom"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>首页首页首页</el-dropdown-item>
+          <router-link to="/">
+            <el-dropdown-item>
+              首页
+            </el-dropdown-item>
+          </router-link>
+          <a target='_blank' href="https://github.com/overxue/shizhishu">
+            <el-dropdown-item>
+              Github
+            </el-dropdown-item>
+          </a>
           <el-dropdown-item>设置</el-dropdown-item>
-          <el-dropdown-item divided>退出</el-dropdown-item>
+          <el-dropdown-item divided>
+            <span @click="logout" style="display:block;">退出</span>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -36,6 +47,8 @@
 </template>
 
 <script>
+import { loginOut } from 'api/login'
+import { mapActions } from 'vuex'
 export default {
   props: {
     isCollapse: {
@@ -58,14 +71,27 @@ export default {
     scree () {
       this.$emit('scree')
     },
-    getBreadcrumb() {
+    getBreadcrumb () {
       let matched = this.$route.matched.filter(item => item.name)
       const first = matched[0]
       if (first && first.name !== 'dashboard') {
         matched = [{ path: '/dashboard', meta: { title: '首页' }}].concat(matched)
       }
       this.levelList = matched
-    }
+    },
+    handleCommand () {
+
+    },
+    logout () {
+      loginOut().then((res) => {
+        this.clearLoginInformation().then(() => {
+          location.reload()
+        })
+      })
+    },
+    ...mapActions({
+      clearLoginInformation: 'clearLoginInformation'
+    })
   },
   watch: {
     $route () {
