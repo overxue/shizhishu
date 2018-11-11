@@ -13,6 +13,9 @@ const mutations = {
   },
   [types.SET_COLLAPSE] (state, bool) {
     state.collapse = bool
+  },
+  [types.SET_VISITED_VIEWS] (state, view) {
+    state.visitedViews = view
   }
 }
 export default mutations

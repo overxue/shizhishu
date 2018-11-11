@@ -21,3 +21,19 @@ export const clearLoginInformation = function ({ commit }) {
 export const saveIsCollapse = function ({ commit }, bool ) {
   commit(types.SET_COLLAPSE, saveCollapse(bool))
 }
+
+export const saveVisitedViews = function ({ commit, state }, view) {
+  let tags = state.visitedViews.slice()
+  if (tags.some(v => v.path === view.path)) return
+  tags.push(Object.assign({}, {
+    title: view.meta.title || 'no-name',
+    path: view.path
+  }))
+  commit(types.SET_VISITED_VIEWS, tags)
+}
+
+export const delVisitedViews = function ({ commit, state }, index) {
+  let tags = state.visitedViews.slice()
+  tags.splice(index, 1)
+  commit(types.SET_VISITED_VIEWS, tags)
+}

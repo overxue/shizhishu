@@ -14,7 +14,9 @@ const state = {
   // 路由
   routers: RouterMap,
   // 左侧菜单栏是否折叠
-  collapse: loadCollapse()
+  collapse: loadCollapse(),
+  // tags-view
+  visitedViews: []
 }
 
 export default state

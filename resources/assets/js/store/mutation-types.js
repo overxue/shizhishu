@@ -5,3 +5,5 @@ export const SET_EXPIRES_AT = 'SET_EXPIRES_AT'
 export const SET_USER_INFO = 'SET_USER_INFO'
 
 export const SET_COLLAPSE = 'SET_COLLAPSE'
+
+export const SET_VISITED_VIEWS = 'SET_VISITED_VIEWS'

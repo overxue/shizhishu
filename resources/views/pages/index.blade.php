@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>食之蔬后台管理</title>
-
+    <link rel="icon" href="icon.ico">
     <!-- Styles -->
     <link href="{{ asset('css/index.css') }}" rel="stylesheet">
 </head>

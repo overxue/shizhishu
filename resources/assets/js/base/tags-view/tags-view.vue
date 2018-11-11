@@ -2,17 +2,67 @@
   <div class="tags-view-container">
     <el-scrollbar style="height: 100%">
       <div class="tags-view-wrapper">
-        <span class="tags-view-item active">
-        Dashboard
-        <span class="el-icon-close"></span>
-        </span>
+        <router-link tag="span" :to="tag.path" class="tags-view-item" v-for="(tag, index) of visitedViews" :key="index">
+        {{tag.title}}
+        <span class="el-icon-close" @click.prevent.stop='closeSelectedTag(tag.path, index)'></span>
+        </router-link>
       </div>
     </el-scrollbar>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapActions, mapGetters } from 'vuex'
+
+export default {
+  created () {
+    this.addViewTags()
+  },
+  computed: {
+    ...mapGetters([
+      'visitedViews'
+    ])
+  },
+  methods: {
+    addViewTags () {
+      const route = this.generateRoute()
+      if (!route) {
+        return false
+      }
+      this.saveVisitedViews(route)
+    },
+    generateRoute () {
+      if (this.$route.name) {
+        return this.$route
+      }
+      return false
+    },
+    closeSelectedTag (path, index) {
+      if (path === '/dashboard' && index === 0 && this.visitedViews.length === 1) {
+        return
+      }
+      this.delVisitedViews(index).then(() => {
+        if (path === this.$route.path) {
+          const latestView = this.visitedViews.slice(-1)[0]
+          if (latestView) {
+            this.$router.push(latestView)
+          } else {
+            this.$router.push('/')
+          }
+        }
+      })
+    },
+    ...mapActions({
+      saveVisitedViews: 'saveVisitedViews',
+      delVisitedViews: 'delVisitedViews'
+    })
+  },
+  watch: {
+    $route () {
+      this.addViewTags()
+    }
+  }
+}
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
@@ -41,7 +91,7 @@ export default {}
         margin-left: 15px
       &:last-of-type
         margin-right: 15px
-      &.active
+      &.router-link-active
         background-color: #42b983
         color: #fff
         border-color: #42b983
