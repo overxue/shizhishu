@@ -1,6 +1,7 @@
 import * as types from './mutation-types'
-import { saveAccessToken, saveExpiresIn, clearExpiresIn, clearAccessToken, saveCollapse } from 'common/js/cache'
 import dayjs from 'dayjs'
+import { saveAccessToken, saveExpiresIn, clearExpiresIn, clearAccessToken, saveCollapse } from 'common/js/cache'
+import { asyncRouterMap, constantRouterMap } from '../router'
 
 export const saveToken = function ({ commit }, { token, time }) {
   let times = dayjs().add(time, 'second').valueOf()
@@ -36,4 +37,28 @@ export const delVisitedViews = function ({ commit, state }, index) {
   let tags = state.visitedViews.slice()
   tags.splice(index, 1)
   commit(types.SET_VISITED_VIEWS, tags)
+}
+
+export const GenerateRoutes = function ({ commit }) {
+  let accessedRouters
+  accessedRouters = asyncRouterMap
+  let route = constantRouterMap.concat(accessedRouters).filter(item => !item.hidden)
+  // let menu = []
+  // constantRouterMap.concat(accessedRouters).forEach((rou) => {
+  //   if (!rou.hidden) {
+  //     const showingChildren = rou.children.filter(item => {
+  //       if (item.hidden) {
+  //         return false
+  //       } else {
+  //         return true
+  //       }
+  //     })
+  //     if (showingChildren.length === 1 || rou.alwaysShow) {
+  //       menu.push({ meta: showingChildren[0].meta, path: showingChildren[0].path})
+  //     } else {
+  //       menu.push({ meta: rou.meta, children: showingChildren })
+  //     }
+  //   }
+  // })
+  commit(types.SET_ROUTERS, { route, accessedRouters })
 }

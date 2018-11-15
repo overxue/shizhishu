@@ -16,6 +16,10 @@ const mutations = {
   },
   [types.SET_VISITED_VIEWS] (state, view) {
     state.visitedViews = view
+  },
+  [types.SET_ROUTERS] (state, { route, accessedRouters }) {
+    state.addRouters = accessedRouters
+    state.routers = route
   }
 }
 export default mutations

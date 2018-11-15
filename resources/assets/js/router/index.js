@@ -8,7 +8,7 @@ const Banner = () => import('components/banner/banner')
 Vue.use(Router)
 
 
-export const RouterMap = [
+export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
@@ -18,36 +18,63 @@ export const RouterMap = [
         path: '/dashboard',
         component: Dashboard,
         name: 'dashboard',
-        meta: { title: '首页', icon: 'dashboard', noCache: true }
-      },
-      {
-        path: '/banner',
-        component: Banner,
-        name: 'banner',
-        meta: { title: 'Banner', icon: 'banner', noCache: true}
-      },
-      {
-        path: '/test',
-        meta: { title: 'text', icon: 'text', noCache: true},
-        name: 'test',
-        redirect: '/test/abc',
-        children: [
-          {
-            path: '/test/abc',
-            component: Banner,
-            name: 'abc',
-            meta: { title: 'text/abc', icon: 'text', noCache: true}
-          }
-        ]
+        meta: { title: '首页', icon: 'dashboard' }
       }
     ]
   },
   {
     path: '/login',
-    component: Login
+    component: Login,
+    hidden: true
   }
 ]
 
 export default new Router({
-  routes: RouterMap
+  routes: constantRouterMap
 })
+
+export const asyncRouterMap = [
+  {
+    path: '/banner',
+    component: Layout,
+    redirect: '/banner/index',
+    children: [
+      {
+        path: '/banner/index',
+        component: Banner,
+        name: 'banner',
+        meta: { title: 'Banner', icon: 'banner'}
+      }
+    ]
+  },
+  {
+    path: '/test',
+    component: Layout,
+    meta: { title: 'test', icon: 'test'},
+    children: [
+      {
+        path: '/text/index',
+        component: Banner,
+        meta: { title: 'test/index'}
+      },
+      {
+        path: '/text/first',
+        component: Dashboard,
+        meta: { 'title': 'test/first' }
+      }
+    ]
+  },
+  {
+    path: '/t',
+    component: Layout,
+    meta: { title: 't', icon: 't'},
+    alwaysShow: true,
+    children: [
+      {
+        path: '/t/index',
+        component: Banner,
+        meta: { title: 't/index'}
+      }
+    ]
+  }
+]

@@ -1,6 +1,6 @@
 import router from '../../router'
-import store from 'store'
 import dayjs from 'dayjs'
+import store from '../../store'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { refreshToken } from 'api/login'
@@ -15,6 +15,7 @@ router.beforeEach((to, from, next) => {
     console.log(dayjs(store.getters.expiresAt).format('YYYY-MM-DD HH:mm:ss'))
     if (to.path === '/login') {
       next({ path: '/' })
+      NProgress.done()
     } else {
       if (dayjs().isAfter(dayjs(store.getters.expiresAt).subtract(2, 'minute'))) {
         // token 过期
@@ -26,6 +27,7 @@ router.beforeEach((to, from, next) => {
           next('/login')
         })
       } else {
+        store.dispatch('GenerateRoutes')
         next()
       }
     }
@@ -36,6 +38,7 @@ router.beforeEach((to, from, next) => {
     } else {
       // 否则全部重定向到登录页
       next('/login')
+      NProgress.done()
     }
   }
 })

@@ -7,20 +7,20 @@
       active-text-color="#409EFF"
       :collapse="isCollapse"
     >
-      <el-submenu :index="item.path" v-if="item.children && item.children.length" v-for="(item, index) of menu" :key="index">
+      <el-submenu :index="item.meta.title" v-if="item.children" v-for="(item, index) of menu" :key="index">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span slot="title">{{item.title}}</span>
+          <span slot="title">{{item.meta.title}}</span>
         </template>
         <router-link :to="child.path" v-for="(child, ind) of item.children" :key="ind">
-          <el-menu-item :index="child.path">{{child.title}}</el-menu-item>
+          <el-menu-item :index="child.path">{{child.meta.title}}</el-menu-item>
         </router-link>
       </el-submenu>
 
       <router-link v-else :to="item.path" tag="li">
         <el-menu-item :index="item.path">
           <i class="el-icon-setting"></i>
-          <span slot="title">{{item.title}}</span>
+          <span slot="title">{{item.meta.title}}</span>
         </el-menu-item>
       </router-link>
     </el-menu>
@@ -37,25 +37,24 @@ export default {
   },
   data () {
     return {
+      onlyOneChild: null,
       menu: []
     }
   },
   created () {
-    // const accessedRouters = this.routers.filter(route => route.children && route.children.length)
     let menu = []
-    this.routers.map((route) => {
-      if (route.children && route.children.length) {
-        route.children.map((item) => {
-          if (item.children) {
-            let arr = []
-            item.children.map((it) => {
-              arr.push({ title: it.meta.title, path: it.path })
-            })
-            menu.push({ title: item.meta.title, icon: item.meta.icon, path: item.path, children: arr })
-          } else {
-            menu.push({ title: item.meta.title, icon: item.meta.icon, path: item.path })
-          }
-        })
+    this.routers.forEach((res) => {
+      const showingChildren = res.children.filter(item => {
+        if (item.hidden) {
+          return false
+        } else {
+          return true
+        }
+      })
+      if (showingChildren.length === 1 || res.alwaysShow) {
+       menu.push({ meta: showingChildren[0].meta, path: showingChildren[0].path})
+      } else {
+        menu.push({ meta: res.meta, children: showingChildren })
       }
     })
     this.menu = menu

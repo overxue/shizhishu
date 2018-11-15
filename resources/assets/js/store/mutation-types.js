@@ -7,3 +7,5 @@ export const SET_USER_INFO = 'SET_USER_INFO'
 export const SET_COLLAPSE = 'SET_COLLAPSE'
 
 export const SET_VISITED_VIEWS = 'SET_VISITED_VIEWS'
+
+export const SET_ROUTERS = 'SET_ROUTERS'

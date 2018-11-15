@@ -1,4 +1,3 @@
-import { RouterMap } from '../router'
 import { loadAccessToken, loadExpiresIn, loadCollapse } from 'common/js/cache'
 
 const state = {
@@ -11,8 +10,10 @@ const state = {
   accessToken: loadAccessToken(),
   // 过期时间
   expiredAt: loadExpiresIn(),
-  // 路由
-  routers: RouterMap,
+  // 合并以后的总路由
+  routers: [],
+  // 动态生成的路由
+  addRouters: [],
   // 左侧菜单栏是否折叠
   collapse: loadCollapse(),
   // tags-view
