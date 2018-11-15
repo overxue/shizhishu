@@ -24,3 +24,10 @@ export function loginOut () {
     method: 'delete'
   })
 }
+
+export function getUserInfo () {
+  return request({
+    url: '/api/user',
+    method: 'get'
+  })
+}

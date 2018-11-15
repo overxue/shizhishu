@@ -42,39 +42,41 @@ export const asyncRouterMap = [
       {
         path: '/banner/index',
         component: Banner,
-        name: 'banner',
+        name: 'bannerIndex',
         meta: { title: 'Banner', icon: 'banner'}
       }
     ]
-  },
-  {
-    path: '/test',
-    component: Layout,
-    meta: { title: 'test', icon: 'test'},
-    children: [
-      {
-        path: '/text/index',
-        component: Banner,
-        meta: { title: 'test/index'}
-      },
-      {
-        path: '/text/first',
-        component: Dashboard,
-        meta: { 'title': 'test/first' }
-      }
-    ]
-  },
-  {
-    path: '/t',
-    component: Layout,
-    meta: { title: 't', icon: 't'},
-    alwaysShow: true,
-    children: [
-      {
-        path: '/t/index',
-        component: Banner,
-        meta: { title: 't/index'}
-      }
-    ]
   }
+  // {
+  //   path: '/test',
+  //   component: Layout,
+  //   meta: { title: 'test', icon: 'test'},
+  //   children: [
+  //     {
+  //       path: '/text/index',
+  //       component: Banner,
+  //       name: 'ha',
+  //       meta: { 'title': 'test/index'}
+  //     },
+  //     {
+  //       path: '/text/first',
+  //       component: Dashboard,
+  //       name: 'dd',
+  //       meta: { 'title': 'test/first' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/t',
+  //   component: Layout,
+  //   meta: { title: 't', icon: 't'},
+  //   alwaysShow: true,
+  //   children: [
+  //     {
+  //       path: '/t/index',
+  //       component: Banner,
+  //       meta: { title: 't/index'}
+  //     }
+  //   ]
+  // }
 ]
