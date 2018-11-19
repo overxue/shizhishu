@@ -4,6 +4,7 @@ const Login = () => import('components/login/login')
 const Layout = () => import('components/layout/layout')
 const Dashboard = () => import('components/dashboard/dashboard')
 const Banner = () => import('components/banner/banner')
+const Coupon = () => import('components/coupon/coupon')
 
 Vue.use(Router)
 
@@ -44,6 +45,19 @@ export const asyncRouterMap = [
         component: Banner,
         name: 'bannerIndex',
         meta: { title: 'Banner', icon: 'banner'}
+      }
+    ]
+  },
+  {
+    path: '/coupon',
+    component: Layout,
+    redirect: '/coupon/index',
+    children: [
+      {
+        path: '/coupon/index',
+        component: Coupon,
+        name: 'Coupon',
+        meta: { 'title': '优惠券', icon: 'coupon' }
       }
     ]
   }

@@ -132,5 +132,8 @@ $api->version('v1', [
         $api->get('admin/banners', 'Admin\BannersController@index');
         // 隐藏 banner
         $api->post('admin/banners/{banner}/onShow', 'Admin\BannersController@onShow');
+        // 优惠券
+        // 获取首页优惠券列表
+        $api->get('admin/coupons', 'Admin\CouponsController@index');
     });
 });

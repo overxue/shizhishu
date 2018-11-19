@@ -23,14 +23,8 @@ import Navbar from 'base/navbar/navbar'
 import TagsView from 'base/tags-view/tags-view'
 import screenfull from 'screenfull'
 import { mapGetters, mapActions } from 'vuex'
-import {collapse} from "../../store/getters";
 
 export default {
-  // data () {
-  //   return {
-  //     isCollapse: false
-  //   }
-  // },
   computed: {
     ...mapGetters([
       'collapse'
@@ -77,7 +71,6 @@ export default {
       bottom: 0
       background: #304156
       transition: width .28s
-      z-index: 10
       &.hide-slider
         width: 64px
     .main-container
@@ -101,8 +94,8 @@ export default {
         transition: all .5s
       .fade-transform-enter
         opacity: 0
-        transform: translateX(-30px)
+        transform: translateX(-20px)
       .fade-transform-leave-to
         opacity: 0
-        transform: translateX(30px)
+        transform: translateX(20px)
 </style>

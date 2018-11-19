@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
               store.dispatch('GenerateRoutes').then(() => {
                 // 动态添加可访问路由表
                 router.addRoutes(store.getters.addRouters)
-                next()
+                next({ ...to, replace: true })
               })
             })
           })
