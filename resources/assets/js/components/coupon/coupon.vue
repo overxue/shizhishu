@@ -20,6 +20,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="paginate-content" style="width: 100%; padding: 3px; margin-top: 50px">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 15, 20, 30, 50]"
+          :page-size="100"
+          layout="total, sizes, prev, pager, next, jumper"
+          background
+          :total="total">
+        </el-pagination>
+      </div>
       <el-dialog title="新增优惠券" :visible.sync="dialogFormVisible" :modal-append-to-body='false'>
         <el-form :model="createCoupon" :rules="rules" ref="couponForm">
           <el-form-item label="优惠金额" label-width="110px" prop="money">
@@ -118,7 +130,12 @@ export default {
           { type: 'array', required: true, message: '请选择日期', trigger: 'change' }
         ]
       },
-      buttonLoading: false
+      buttonLoading: false,
+      total: 0,
+      // 每页显示的数量
+      currentSize: 10,
+      // 第几页
+      currentPage: 1
     }
   },
   created () {
@@ -127,8 +144,9 @@ export default {
   methods: {
     _coupon () {
       this.loading = true
-      getCoupon().then((res) => {
+      getCoupon(this.currentPage, this.currentSize).then((res) => {
         this.coupons = res.data
+        this.total = res.meta.pagination.total
         this.loading = false
       })
     },
@@ -148,6 +166,14 @@ export default {
             this._coupon()
           })
       })
+    },
+    handleSizeChange (val) {
+      this.currentSize = val
+      this._coupon()
+    },
+    handleCurrentChange (val) {
+      this.currentPage = val
+      this._coupon()
     }
   }
 }

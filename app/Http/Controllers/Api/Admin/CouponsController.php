@@ -9,11 +9,11 @@ use App\Http\Controllers\Api\Controller;
 
 class CouponsController extends Controller
 {
-    public function index(Coupon $coupon)
+    public function index(Request $request, Coupon $coupon)
     {
-        $coupons = $coupon->all();
+        $coupons = $coupon->paginate($request->current ?? 20);
 
-        return $this->response->collection($coupons, new CouponTransformer());
+        return $this->response->paginator($coupons, new CouponTransformer());
     }
 
     public function store(Request $request, Coupon $coupon)

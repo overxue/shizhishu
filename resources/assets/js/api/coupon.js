@@ -1,8 +1,8 @@
 import request from './request'
 
-export function getCoupon () {
+export function getCoupon (page, currentPage) {
   return request({
-    url: '/api/admin/coupons',
+    url: `/api/admin/coupons?page=${page}&current=${currentPage}`,
     method: 'get'
   })
 }
