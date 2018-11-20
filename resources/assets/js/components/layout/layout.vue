@@ -89,7 +89,7 @@ export default {
       right: 0
       left: 0
       bottom: 0
-      /*background: #f0f2f5*/
+      background: #f0f2f5
       .fade-transform-leave-active, .fade-transform-enter-active
         transition: all .5s
       .fade-transform-enter

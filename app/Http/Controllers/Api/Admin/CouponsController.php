@@ -15,4 +15,12 @@ class CouponsController extends Controller
 
         return $this->response->collection($coupons, new CouponTransformer());
     }
+
+    public function store(Request $request, Coupon $coupon)
+    {
+        $coupon->fill($request->except('date'));
+        $coupon->save();
+
+        return $this->response->noContent()->setStatusCode(201);
+    }
 }

@@ -135,5 +135,7 @@ $api->version('v1', [
         // 优惠券
         // 获取首页优惠券列表
         $api->get('admin/coupons', 'Admin\CouponsController@index');
+        // 添加优惠券
+        $api->post('admin/coupons', 'Admin\CouponsController@store');
     });
 });
