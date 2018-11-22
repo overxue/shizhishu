@@ -18,9 +18,23 @@ class CouponsController extends Controller
 
     public function store(Request $request, Coupon $coupon)
     {
-        $coupon->fill($request->except('date'));
+        $coupon->fill($request->all());
         $coupon->save();
 
         return $this->response->noContent()->setStatusCode(201);
+    }
+
+    public function update(Request $request, Coupon $coupon)
+    {
+        $coupon->update($request->all());
+
+        return $this->response->noContent();
+    }
+
+    public function destroy(Coupon $coupon)
+    {
+        $coupon->delete();
+
+        return $this->response->noContent();
     }
 }

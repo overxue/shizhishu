@@ -137,5 +137,9 @@ $api->version('v1', [
         $api->get('admin/coupons', 'Admin\CouponsController@index');
         // 添加优惠券
         $api->post('admin/coupons', 'Admin\CouponsController@store');
+        // 修改优惠券
+        $api->patch('admin/coupons/{coupon}', 'Admin\CouponsController@update');
+        // 删除优惠券
+        $api->delete('admin/coupons/{coupon}', 'Admin\CouponsController@destroy');
     });
 });

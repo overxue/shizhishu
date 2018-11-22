@@ -11,8 +11,8 @@ class CouponTransformer extends TransformerAbstract
     {
         return [
             'id' => $coupon->id,
-            'money' => str_replace('.00', '', $coupon->money),
-            'min_amount' => str_replace('.00', '', $coupon->min_amount),
+            'money' => (int)str_replace('.00', '', $coupon->money),
+            'min_amount' => (int)str_replace('.00', '', $coupon->min_amount),
             'description' => $coupon->description,
             'start_time' => $coupon->not_before->toDateString(),
             'expirAt' => $coupon->not_after->toDateString(),

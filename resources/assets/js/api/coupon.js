@@ -14,3 +14,18 @@ export function createCoupon (coupon) {
     data: coupon
   })
 }
+
+export function updateCoupon (coupon) {
+  return request({
+    url: `/api/admin/coupons/${coupon.id}`,
+    method: 'patch',
+    data: coupon
+  })
+}
+
+export function delCoupon (id) {
+  return request({
+    url: `/api/admin/coupons/${id}`,
+    method: 'delete'
+  })
+}

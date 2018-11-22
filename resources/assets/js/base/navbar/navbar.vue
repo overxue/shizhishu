@@ -119,11 +119,12 @@ export default {
         padding: 0 10px
         cursor: pointer
         .hamburger-icon
-          font-size: 20px
-        .actived
           display: block
-          transform: rotate(90deg)
-          transition: .38s
+          font-size: 20px
+          transform: rotate(0deg)
+          transition: 0.38s
+          &.actived
+            transform: rotate(90deg)
       .breadcrumb-container
         display: inline-block
         vertical-align: top
