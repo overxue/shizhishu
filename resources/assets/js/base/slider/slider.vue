@@ -51,7 +51,7 @@ export default {
           return true
         }
       })
-      if (showingChildren.length === 1 || res.alwaysShow) {
+      if (showingChildren.length === 1 && !res.alwaysShow) {
        menu.push({ meta: showingChildren[0].meta, path: showingChildren[0].path})
       } else {
         menu.push({ meta: res.meta, children: showingChildren })

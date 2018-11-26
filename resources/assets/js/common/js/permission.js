@@ -41,7 +41,16 @@ router.beforeEach((to, from, next) => {
             })
           })
         } else {
-          next()
+          if (store.getters.routers.length) {
+            next()
+          } else {
+            // 动态生成理由
+            store.dispatch('GenerateRoutes').then(() => {
+              // 动态添加可访问路由表
+              router.addRoutes(store.getters.addRouters)
+              next({ ...to, replace: true })
+            })
+          }
         }
       }
     }
@@ -52,7 +61,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       // 否则全部重定向到登录页
-      next('/login')
+      next(`/login?redirect=${to.path}`)
       NProgress.done()
     }
   }

@@ -51,7 +51,8 @@ export default {
       },
       passwordType: 'password',
       loading: false,
-      icon: '&#xe70f;'
+      icon: '&#xe70f;',
+      redirect: undefined
     }
   },
   computed: {
@@ -86,7 +87,7 @@ export default {
               phone: res.phone
             })
             this.loading = false
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
             this.loading = false
           })
@@ -100,7 +101,15 @@ export default {
       'saveToken',
       'saveUserInfo'
     ])
-  }
+  },
+  watch: {
+    $route: {
+      handler (route) {
+        this.redirect = route.query && route.query.redirect
+      },
+      immediate: true
+    }
+  },
 }
 </script>
 
