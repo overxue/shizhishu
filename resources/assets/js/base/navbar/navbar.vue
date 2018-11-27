@@ -97,9 +97,9 @@ export default {
       // }
       this.$router.push(item.path)
     },
-    ...mapActions({
-      clearLoginInformation: 'clearLoginInformation'
-    })
+    ...mapActions([
+      'clearLoginInformation'
+    ])
   },
   watch: {
     $route () {

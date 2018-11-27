@@ -18,7 +18,8 @@
         "screenfull": "^3.3.3",
         "good-storage": "^1.0.1",
         "dayjs": "^1.7.7",
-        "nprogress": "^0.2.0"
+        "nprogress": "^0.2.0",
+        "vuedraggable": "^2.16.0"
     },
     "devDependencies": {
         "laravel-mix": "^2.0",

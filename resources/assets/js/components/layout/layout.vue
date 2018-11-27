@@ -43,9 +43,9 @@ export default {
       }
       screenfull.toggle()
     },
-    ...mapActions({
-      saveCollapse: 'saveIsCollapse'
-    })
+    ...mapActions([
+      'saveIsCollapse'
+    ])
   },
   components: {
     Slider,

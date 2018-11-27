@@ -2,23 +2,34 @@
   <div class="tags-view-container">
     <el-scrollbar style="height: 100%">
       <div class="tags-view-wrapper">
-        <router-link tag="span" :to="tag.path" class="tags-view-item" v-for="(tag, index) of visitedViews" :key="index">
-        {{tag.title}}
-        <span class="el-icon-close" @click.prevent.stop='closeSelectedTag(tag.path, index)'></span>
-        </router-link>
+        <draggable v-model="visitedList">
+          <router-link tag="span" :to="tag.path" class="tags-view-item" v-for="(tag, index) of visitedViews" :key="index">
+            {{tag.title}}
+            <span class="el-icon-close" @click.prevent.stop='closeSelectedTag(tag.path, index)'></span>
+          </router-link>
+        </draggable>
       </div>
     </el-scrollbar>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import draggable from 'vuedraggable'
 
 export default {
   created () {
     this.addViewTags()
   },
   computed: {
+    visitedList: {
+      get () {
+        return this.visitedViews
+      },
+      set (value) {
+        this.mapMutations(value)
+      }
+    },
     ...mapGetters([
       'visitedViews'
     ])
@@ -52,15 +63,21 @@ export default {
         }
       })
     },
-    ...mapActions({
-      saveVisitedViews: 'saveVisitedViews',
-      delVisitedViews: 'delVisitedViews'
+    ...mapActions([
+      'saveVisitedViews',
+      'delVisitedViews'
+    ]),
+    ...mapMutations({
+      mapMutations: 'SET_VISITED_VIEWS'
     })
   },
   watch: {
     $route () {
       this.addViewTags()
     }
+  },
+  components: {
+    draggable
   }
 }
 </script>
