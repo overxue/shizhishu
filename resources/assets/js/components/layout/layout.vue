@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     toggle () {
-      this.saveCollapse(!this.collapse)
+      this.saveIsCollapse(!this.collapse)
     },
     scree () {
       if (!screenfull.enabled) {

@@ -129,6 +129,7 @@ export default {
         .hamburger-icon
           display: block
           font-size: 20px
+          transform-origin: 50% 50%
           transform: rotate(0deg)
           transition: 0.38s
           &.actived

@@ -53,6 +53,8 @@ $api->version('v1', [
             ->name('api.categories.index');
         // 商品详情
         $api->get('products/{product}', 'ProductsController@show');
+        // 上传图片接口
+        $api->post('images', 'ImagesController@store');
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {
             // 当前登录用户信息

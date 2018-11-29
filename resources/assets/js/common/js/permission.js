@@ -26,7 +26,7 @@ router.beforeEach((to, from, next) => {
           next()
         }).catch(() => {
           store.dispatch('clearLoginInformation')
-          next('/login')
+          next(`/login?redirect=${to.path}`)
         })
       } else {
         if (!store.getters.userName){
