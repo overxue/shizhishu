@@ -143,5 +143,7 @@ $api->version('v1', [
         $api->patch('admin/coupons/{coupon}', 'Admin\CouponsController@update');
         // 删除优惠券
         $api->delete('admin/coupons/{coupon}', 'Admin\CouponsController@destroy');
+        // 添加商品
+        $api->post('admin/product', 'Admin\ProductsController@store');
     });
 });

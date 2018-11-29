@@ -130,7 +130,6 @@ export default {
           { required: true, message: '必须是非零正整数', trigger: 'change' },
           { validator: checkNumber, trigger: 'change' },
           { validator: checkMoney, trigger: 'change' }
-
         ],
         min_amount: [
           { required: true, message: '必须是非零正整数', trigger: 'change' },
