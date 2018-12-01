@@ -145,5 +145,7 @@ $api->version('v1', [
         $api->delete('admin/coupons/{coupon}', 'Admin\CouponsController@destroy');
         // 添加商品
         $api->post('admin/product', 'Admin\ProductsController@store');
+        // 获取分类列表
+        $api->get('admin/categories', 'CategoriesController@index');
     });
 });

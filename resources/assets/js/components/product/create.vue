@@ -24,6 +24,11 @@
             <el-form-item label="单价" prop="price">
               <el-input v-model.number="product.price" placeholder="请输入商品单价"></el-input>
             </el-form-item>
+            <el-form-item label="商品分类" prop="category_id">
+              <el-select v-model="product.category_id" placeholder="请选择商品分类" style="width: 100%">
+                <el-option :label="item.name" :value="item.id" v-for="(item, index) of category" :key="index"></el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="商品单位" prop="unit">
               <el-select v-model="product.unit" placeholder="请选择商品单位" style="width: 100%">
                 <el-option :label="item" :value="item" v-for="(item, index) of unit" :key="index"></el-option>
@@ -57,7 +62,7 @@
               <el-input v-model="product.detailUrl[0]" type="hidden" style="display: none"></el-input>
             </el-form-item>
             <el-form-item style="margin-top: 40px">
-              <el-button type="primary" @click="createProduct">提交</el-button>
+              <el-button type="primary" @click="createProduct" :loading="load">提交</el-button>
               <el-button @click="reset">重置</el-button>
             </el-form-item>
           </el-form>
@@ -68,7 +73,10 @@
 </template>
 
 <script>
-  export default {
+import { createProduct } from 'api/product'
+import { getCategory } from 'api/category'
+
+export default {
     data () {
       var checkNumber = (rule, value, callback) => {
         if (!Number.isInteger(value)) {
@@ -88,7 +96,8 @@
           unit: '',
           price: '',
           on_sale: false,
-          detailUrl: []
+          detailUrl: [],
+          category_id: ''
         },
         imageUrl: '',
         unit: ['斤', '件', '瓶', '箱', '袋', '盒', '罐'],
@@ -99,11 +108,22 @@
           image: [ { required: true, message: '请上传图片', trigger: 'change' } ],
           price: [ { required: true, message: '必须是非零正整数', trigger: 'change' }, { validator: checkNumber, trigger: 'change' }],
           unit:  [ { required: true, message: '请选择商品单位', trigger: 'change' } ],
-          detailUrl: [ { type: 'array', required: true, message: '请上传图片', trigger: 'change' } ]
-        }
+          detailUrl: [ { type: 'array', required: true, message: '请上传图片', trigger: 'change' } ],
+          category_id: [ { required: true, message: '请选择商品分类', trigger: 'change' } ],
+        },
+        category: {},
+        load: false
       }
     },
+    created () {
+      this._getCategory()
+    },
     methods: {
+      _getCategory () {
+        getCategory().then((res) => {
+          this.category = res.data
+        })
+      },
       handleAvatarSuccess(res, file) {
         this.product.image = res.path
         this.imageUrl = URL.createObjectURL(file.raw)
@@ -136,7 +156,12 @@
       createProduct () {
         this.$refs['productForm'].validate((valid) => {
           if (!valid) return
-          console.log(this.product)
+          this.load = true
+          createProduct(this.product).then(() => {
+            this.$message.success('新增成功')
+            this.reset()
+            this.load = false
+          })
         })
       },
       reset () {
