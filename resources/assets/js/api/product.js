@@ -7,3 +7,10 @@ export function createProduct (data) {
     data
   })
 }
+
+export function product (page, currentPage) {
+  return request({
+    url: `/api/admin/product?page=${page}&current=${currentPage}`,
+    method: 'get'
+  })
+}

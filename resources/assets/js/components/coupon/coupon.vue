@@ -20,9 +20,8 @@
             <el-tag size="medium" type="danger" v-else>隐藏</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" min-width="200">
           <template slot-scope="scope">
-            <!--<el-button type="primary" icon="el-icon-edit" @click="editCoupon(scope.row)">修改</el-button>-->
             <el-button type="primary" icon="el-icon-edit" @click="editCoupon(scope.row)" size="small">修改</el-button>
             <el-button type="danger" icon="el-icon-delete" @click="delCoupon(scope.row)" size="small">删除</el-button>
           </template>

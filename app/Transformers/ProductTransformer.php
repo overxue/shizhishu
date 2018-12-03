@@ -22,6 +22,8 @@ class ProductTransformer extends TransformerAbstract
             'review_count' => $product->review_count,
             'price' => $product->price,
             'image' => $product->image,
+            'create_at' => $product->created_at->toDateTimeString(),
+            'on_sale' => $product->on_sale,
         ];
     }
 

@@ -6,6 +6,7 @@ const Dashboard = () => import('components/dashboard/dashboard')
 const Banner = () => import('components/banner/banner')
 const Coupon = () => import('components/coupon/coupon')
 const CreateProduct = () => import('components/product/create')
+const Product = () => import('components/product/product')
 
 Vue.use(Router)
 
@@ -67,7 +68,7 @@ export const asyncRouterMap = [
     component: Layout,
     meta: { title: '商品管理', icon: 'product' },
     name: 'product',
-    redirect: 'noredirect',
+    redirect: '/product/index',
     alwaysShow: true,
     children: [
       {
@@ -75,26 +76,13 @@ export const asyncRouterMap = [
         component: CreateProduct,
         name: 'CreateProduct',
         meta: {'title': '新增商品'}
+      },
+      {
+        path: '/product/index',
+        component: Product,
+        name: 'ProductIndex',
+        meta: { title: '商品列表' }
       }
     ]
-  },
-  // {
-  //   path: '/test',
-  //   component: Layout,
-  //   meta: { title: 'test', icon: 'test'},
-  //   children: [
-  //     {
-  //       path: '/text/index',
-  //       component: Banner,
-  //       name: 'ha',
-  //       meta: { 'title': 'test/index'}
-  //     },
-  //     {
-  //       path: '/text/first',
-  //       component: Dashboard,
-  //       name: 'dd',
-  //       meta: { 'title': 'test/first' }
-  //     }
-  //   ]
-  // }
+  }
 ]

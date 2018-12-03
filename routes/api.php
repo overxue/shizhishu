@@ -147,5 +147,7 @@ $api->version('v1', [
         $api->post('admin/product', 'Admin\ProductsController@store');
         // 获取分类列表
         $api->get('admin/categories', 'CategoriesController@index');
+        // 获取商品列表
+        $api->get('admin/product', 'Admin\ProductsController@index');
     });
 });

@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Api\admin;
 
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Transformers\ProductTransformer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
 use Illuminate\Support\Facades\File;
 
 class ProductsController extends Controller
 {
+    public function index(Request $request, Product $product)
+    {
+        $products = $product->paginate($request->current ?? 20);
+
+        return $this->response->paginator($products, new ProductTransformer());
+    }
+
     public function store(Request $request, Product $product, ProductImage $productImage)
     {
         $product = \DB::transaction(function () use ($request, $product, $productImage) {
