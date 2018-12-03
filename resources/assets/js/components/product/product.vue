@@ -22,12 +22,12 @@
         </el-table-column>
         <el-table-column label="操作" min-width="200">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" @click="editCoupon(scope.row)" size="small">修改</el-button>
-            <el-button type="danger" icon="el-icon-delete" @click="delCoupon(scope.row)" size="small">删除</el-button>
+            <el-button type="primary" icon="el-icon-edit" @click="editCoupon(scope.row.id)" size="small">修改</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click="delProduct(scope.row.id)" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <div class="paginate-content" style="width: 100%; padding: 3px; margin-top: 50px">
+      <div class="paginate-content">
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -44,7 +44,8 @@
 </template>
 
 <script>
-import { product } from 'api/product'
+import { product, delProduct } from 'api/product'
+
 export default {
   data () {
     return {
@@ -80,6 +81,17 @@ export default {
       this.currentPage = val
       this._getProduct()
     },
+    delProduct (id) {
+      this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        delProduct(id).then(() => {
+          this._getProduct()
+        })
+      }).catch(() => {})
+    }
   }
 }
 </script>
@@ -90,6 +102,11 @@ export default {
       padding: 20px
       .add
         margin-bottom: 20px
+      .paginate-content
+        width: 100%
+        padding: 3px
+        margin-top: 50px
+        overflow: hidden
 </style>
 
 <style lang="stylus" rel="stylesheet/stylus">

@@ -256,6 +256,11 @@ export default {
       padding: 20px
       .add
         margin-bottom: 20px
+      .paginate-content
+        width: 100%
+        padding: 3px
+        margin-top: 50px
+        overflow: hidden
 </style>
 
 <style lang="stylus" rel="stylesheet/stylus">

@@ -48,6 +48,24 @@ class ProductsController extends Controller
         }
     }
 
+    public function destroy(Product $product)
+    {
+        $images = $product->productImages()->get()->pluck('image');
+        $product->delete();
+        $this->deleteImage($product->image);
+        foreach ($images as $v) {
+            $this->deleteImage($v);
+        }
+        return $this->response->noContent();
+    }
+
+    public function deleteImage($path)
+    {
+        if (File::exists($path)) {
+            File::delete($path);
+        }
+    }
+
     public function moveImage($type, $path)
     {
         if (File::exists($path)) {

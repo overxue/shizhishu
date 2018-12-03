@@ -144,10 +144,12 @@ $api->version('v1', [
         // 删除优惠券
         $api->delete('admin/coupons/{coupon}', 'Admin\CouponsController@destroy');
         // 添加商品
-        $api->post('admin/product', 'Admin\ProductsController@store');
+        $api->post('admin/products', 'Admin\ProductsController@store');
         // 获取分类列表
         $api->get('admin/categories', 'CategoriesController@index');
         // 获取商品列表
-        $api->get('admin/product', 'Admin\ProductsController@index');
+        $api->get('admin/products', 'Admin\ProductsController@index');
+        // 删除商品列表
+        $api->delete('admin/products/{product}', 'Admin\ProductsController@destroy');
     });
 });
