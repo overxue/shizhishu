@@ -10,7 +10,7 @@ export function createProduct (data) {
 
 export function product (page, currentPage) {
   return request({
-    url: `/api/admin/products?page=${page}&current=${currentPage}`,
+    url: `/api/admin/products?page=${page}&current=${currentPage}&include=category`,
     method: 'get'
   })
 }

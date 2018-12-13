@@ -11,7 +11,7 @@ class CategoryTransformer extends TransformerAbstract
 
     protected $type;
 
-    public function __construct($type)
+    public function __construct($type = null)
     {
         $this->type = $type;
     }
