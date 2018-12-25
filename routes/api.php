@@ -151,5 +151,9 @@ $api->version('v1', [
         $api->get('admin/products', 'Admin\ProductsController@index');
         // 删除商品列表
         $api->delete('admin/products/{product}', 'Admin\ProductsController@destroy');
+        // 商品上下架
+        $api->post('admin/products/{product}/onShow', 'Admin\ProductsController@onShow');
+        // 修改商品
+        $api->patch('admin/products/{product}', 'Admin\ProductsController@update');
     });
 });

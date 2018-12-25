@@ -53,10 +53,11 @@
         </el-upload>
         <el-carousel height="211px" v-if="fileList.length" style="margin-top: 20px; width: 375px; height: 211px">
           <el-carousel-item v-for="item in fileList" :key="item.name">
-            <img :src="carousel(item)" style="width: 100%; height: 100%">
+            <img :src="item.url" style="width: 100%; height: 100%;" v-if="item.edit === 'edit'">
+            <img :src="carousel(item)" style="width: 100%; height: 100%;" v-else>
           </el-carousel-item>
         </el-carousel>
-        <el-input v-model="product.detailUrl[0]" type="hidden" style="display: none"></el-input>
+        <el-input v-model="product.detailUrl[0].imgUrl" type="hidden" style="display: none" v-if="product.detailUrl[0]"></el-input>
       </el-form-item>
       <el-form-item style="margin-top: 40px">
         <el-button type="primary" @click="createProduct" :loading="loading">提交</el-button>
@@ -124,7 +125,7 @@ export default {
       this.imageUrl = URL.createObjectURL(file.raw)
     },
     DetailSuccess (res, file, fileList) {
-      this.product.detailUrl.push(res.path)
+      this.product.detailUrl.push({ 'imgUrl': res.path })
       this.detailUrl.push(URL.createObjectURL(file.raw))
       this.fileList = fileList
     },
@@ -133,7 +134,8 @@ export default {
     },
     handleRemove (file, fileList) {
       this.fileList = fileList
-      const url = this.product.detailUrl.filter(item => item !== file.response.path)
+      const path = file.edit ? file.url : file.response.path
+      const url = this.product.detailUrl.filter(item => item !== path)
       this.product.detailUrl = url
     },
     beforeAvatarUpload(file) {
@@ -159,12 +161,13 @@ export default {
       this.$refs['productForm'].resetFields()
       this.imageUrl = ''
       this.fileList = []
-    },
-    load () {
       this.loading = false
     },
     imgUrl (url) {
       this.imageUrl = url
+    },
+    list (list) {
+      this.fileList = list
     }
   }
 }

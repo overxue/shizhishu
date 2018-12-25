@@ -59,6 +59,19 @@ class ProductsController extends Controller
         return $this->response->noContent();
     }
 
+    public function onShow(Product $product)
+    {
+        $product->on_sale = !$product->on_sale;
+        $product->save();
+
+        return $this->response->noContent();
+    }
+
+    public function update(Request $request, Product $product, ProductImage $productImage)
+    {
+        dd($product);
+    }
+
     public function deleteImage($path)
     {
         if (File::exists($path)) {

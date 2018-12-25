@@ -33,7 +33,6 @@ export default {
         createProduct(form).then(() => {
           this.$message.success('新增成功')
           this.$refs.productForm.reset()
-          this.$refs.productForm.load()
         })
       }
     },
