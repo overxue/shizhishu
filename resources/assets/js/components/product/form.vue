@@ -135,7 +135,7 @@ export default {
     handleRemove (file, fileList) {
       this.fileList = fileList
       const path = file.edit ? file.url : file.response.path
-      const url = this.product.detailUrl.filter(item => item !== path)
+      const url = this.product.detailUrl.filter(item => item.imgUrl !== path)
       this.product.detailUrl = url
     },
     beforeAvatarUpload(file) {

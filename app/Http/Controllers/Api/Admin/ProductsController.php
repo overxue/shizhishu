@@ -31,7 +31,7 @@ class ProductsController extends Controller
             $product->save();
 
             foreach($request->detailUrl as $v) {
-                $res = $this->moveImage('productDetail', $v);
+                $res = $this->moveImage('productDetail', $v['imgUrl']);
                 if (!$res) {
                     \DB::rollBack();
                     return false;
@@ -69,7 +69,46 @@ class ProductsController extends Controller
 
     public function update(Request $request, Product $product, ProductImage $productImage)
     {
-        dd($product);
+        $product = \DB::transaction(function () use ($request, $product, $productImage) {
+            if ($request->image != $product->image) {
+                $res = $this->moveImage('product', $request->image);
+                if (!$res) {
+                    \DB::rollBack();
+                    return false;
+                }
+                $this->deleteImage($product->image);
+                $request['image'] = $res;
+            }
+            $product->update($request->all());
+            $productDetail = $product->productImages->pluck('image')->all();
+            $product->productImages()->delete();
+            foreach($request->detailUrl as $v) {
+                if (in_array($v['imgUrl'], $productDetail)) {
+                    // 在数组里
+                    $productDetail = array_diff($productDetail, [$v['imgUrl']]);
+                    $res = $v['imgUrl'];
+                } else {
+                    $res = $this->moveImage('productDetail', $v['imgUrl']);
+                    if (!$res) {
+                        \DB::rollBack();
+                        return false;
+                    }
+                }
+                $item = $productImage->make(['image' => $res, 'product_id' => $product->id]);
+                $item->save();
+            }
+            if (!empty($productDetail)) {
+                foreach($productDetail as $value) {
+                    $this->deleteImage($value);
+                }
+            }
+            return true;
+        });
+        if ($product) {
+            return $this->response->noContent()->setStatusCode(201);
+        } else {
+            return $this->response->error('图片不存在', 401);
+        }
     }
 
     public function deleteImage($path)

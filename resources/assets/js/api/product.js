@@ -33,6 +33,7 @@ export function pullProduct (id) {
 export function editProduct (data, id) {
   return request({
     url: `/api/admin/products/${id}`,
-    method: 'patch'
+    method: 'patch',
+    data
   })
 }

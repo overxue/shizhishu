@@ -133,6 +133,8 @@ export default {
       editProduct(form, this.product_id).then(() => {
         this.$message.success('修改成功')
         this.$refs.productForm.reset()
+        this.dialogFormVisible = false
+        this._getProduct()
       })
     },
     delProduct (id) {

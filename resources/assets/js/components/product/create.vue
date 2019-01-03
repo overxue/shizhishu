@@ -12,6 +12,7 @@
 
 <script>
 import { getCategory } from 'api/category'
+import { createProduct } from 'api/product'
 import CreateForm from './form'
 
 export default {
