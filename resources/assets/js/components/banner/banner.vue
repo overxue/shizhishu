@@ -1,53 +1,56 @@
 <template>
   <div class="banner-contant">
     <div class="add">
-      <el-button type="primary" icon="el-icon-edit" size="medium" @click="addBanner">添加</el-button>
+      <el-button type="primary" icon="el-icon-edit" size="medium" @click="dialogFormVisible = true">添加</el-button>
     </div>
     <el-table :data="banners" v-loading="loading" highlight-current-row stripe border style="width: 100%">
       <el-table-column sortable prop="id" label="序号" width="80" align="center"></el-table-column>
       <el-table-column label="图片" width="220" align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.imgUrl" width="100" height="40" class="banner-img" @click="imgDetail(scope.row.imgUrl)"/>
+          <img :src="scope.row.imgUrl" width="100" height="40" class="banner-img" @click="url = scope.row.imgUrl"/>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="100" align="center">
+      <el-table-column label="创建时间" width="160" align="center">
         <template slot-scope="scope">
-          <span>{{time(scope.row.created_at)}}</span>
+          <span>{{scope.row.created_at}}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" width="100" align="center">
         <template slot-scope="scope">
-          <el-tag type="success" v-if="scope.row.show">显示</el-tag>
-          <el-tag type="danger" v-else>隐藏</el-tag>
+          <el-tag :type="scope.row.show | stateFilter" size="medium"  v-text="scope.row.show ? '显示' : '隐藏'"></el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" min-width="200px">
         <template slot-scope="scope">
-          <el-button size="mini" type="danger" @click="show(scope.row.id, false)" v-if="scope.row.show === 1">隐藏</el-button>
-          <el-button size="mini" type="primary" @click="show(scope.row.id, true)" v-else>显示</el-button>
+          <el-button size="small" :type="scope.row.show | typeFilter" @click="show(scope.row.id, !scope.row.show)" v-text="scope.row.show ? '隐藏' : '显示'"></el-button>
         </template>
       </el-table-column>
     </el-table>
     <transition name="fade">
-      <div class="banner-detail" v-show="url" @click="hidden">
+      <div class="banner-detail" v-show="url" @click="url = ''">
         <div class="img-wrapper">
           <img :src="url">
         </div>
       </div>
     </transition>
     <el-dialog title="新增Banner" :visible.sync="dialogFormVisible" :modal-append-to-body='false'>
-      <el-form :model="createBanner">
-        <el-form-item label="图片" label-width="80px">
+      <el-form :model="createBanner" :rules="rules" ref="banner">
+        <el-form-item label="图片" label-width="80px" prop="imgUrl">
           <el-upload
             style="width: 300px"
             class="upload-demo"
             drag
-            :auto-upload="false"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            multiple>
+            action="/api/images"
+            :on-success="handleSuccess"
+            :on-remove="handleRemove"
+            :limit="1"
+            name="image"
+            :data="{'type': 'banner'}"
+            >
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           </el-upload>
+          <el-input v-model="createBanner.imgUrl" type="hidden" style="display: none"></el-input>
         </el-form-item>
         <el-form-item label="是否显示" label-width="80px">
           <el-switch
@@ -59,18 +62,18 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="createSubmit">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getBannerList, showBanner } from 'api/banner'
+import { getBannerList, showBanner, banner } from 'api/banner'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
-import relativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(relativeTime)
+// import relativeTime from 'dayjs/plugin/relativeTime'
+// dayjs.extend(relativeTime)
 export default {
   data() {
     return {
@@ -78,7 +81,21 @@ export default {
       loading: true,
       url: '',
       dialogFormVisible: false,
-      createBanner: {}
+      createBanner: {
+        on_show: false,
+        imgUrl: ''
+      },
+      rules: {
+        imgUrl: [{required: true, message: '请上传图片', trigger: 'change'}]
+      }
+    }
+  },
+  filters: {
+    stateFilter (state) {
+      return state ? 'primary' : 'warning'
+    },
+    typeFilter (type) {
+      return type ? 'warning' : 'primary'
     }
   },
   created () {
@@ -92,23 +109,29 @@ export default {
         this.loading = false
       })
     },
-    time (time) {
-      return dayjs(time).locale('zh-cn').fromNow()
-    },
+    // time (time) {
+    //   return dayjs(time).locale('zh-cn').fromNow()
+    // },
     show (id, bool) {
       this.loading = true
       showBanner(id, bool).then((res) => {
         this._getBanner()
       })
     },
-    imgDetail (url) {
-      this.url = url
+    handleSuccess (res) {
+      this.createBanner.imgUrl = res.path
     },
-    hidden () {
-      this.url = ''
+    handleRemove () {
+      this.createBanner.imgUrl = ''
     },
-    addBanner () {
-      this.dialogFormVisible = true
+    createSubmit () {
+      this.$refs['banner'].validate((valid) => {
+        if (!valid) return
+        banner(this.createBanner).then(res => {
+          this._getBanner()
+          this.dialogFormVisible = false
+        })
+      })
     }
   }
 }

@@ -16,3 +16,11 @@ export function showBanner (id, show) {
     }
   })
 }
+
+export function banner (data) {
+  return request({
+    url: '/api/admin/banners',
+    method: 'post',
+    data
+  })
+}

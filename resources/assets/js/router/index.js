@@ -7,6 +7,7 @@ const Banner = () => import('components/banner/banner')
 const Coupon = () => import('components/coupon/coupon')
 const CreateProduct = () => import('components/product/create')
 const Product = () => import('components/product/product')
+const Order = () => import('components/order/order')
 
 Vue.use(Router)
 
@@ -82,6 +83,19 @@ export const asyncRouterMap = [
         component: Product,
         name: 'ProductIndex',
         meta: { title: '商品列表' }
+      }
+    ]
+  },
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/index',
+    children: [
+      {
+        path: '/order/index',
+        component: Order,
+        name: 'OrderIndex',
+        meta: { title: '订单管理', icon: 'banner'}
       }
     ]
   }

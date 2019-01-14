@@ -7,7 +7,7 @@ use App\Models\ProductImage;
 use App\Transformers\ProductTransformer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
-use Illuminate\Support\Facades\File;
+use App\Handlers\ImageUploadHandler;
 
 class ProductsController extends Controller
 {
@@ -18,10 +18,10 @@ class ProductsController extends Controller
         return $this->response->paginator($products, new ProductTransformer());
     }
 
-    public function store(Request $request, Product $product, ProductImage $productImage)
+    public function store(Request $request, Product $product, ProductImage $productImage, ImageUploadHandler $image)
     {
-        $product = \DB::transaction(function () use ($request, $product, $productImage) {
-            $res = $this->moveImage('product', $request->image);
+        $product = \DB::transaction(function () use ($request, $product, $productImage, $image) {
+            $res = $image->moveImage('product', $request->image);
             if (!$res) {
                 \DB::rollBack();
                 return false;
@@ -31,7 +31,7 @@ class ProductsController extends Controller
             $product->save();
 
             foreach($request->detailUrl as $v) {
-                $res = $this->moveImage('productDetail', $v['imgUrl']);
+                $res = $image->moveImage('productDetail', $v['imgUrl']);
                 if (!$res) {
                     \DB::rollBack();
                     return false;
@@ -48,13 +48,13 @@ class ProductsController extends Controller
         }
     }
 
-    public function destroy(Product $product)
+    public function destroy(Product $product, ImageUploadHandler $image)
     {
         $images = $product->productImages()->get()->pluck('image');
         $product->delete();
-        $this->deleteImage($product->image);
+        $image->deleteImage($product->image);
         foreach ($images as $v) {
-            $this->deleteImage($v);
+            $image->deleteImage($v);
         }
         return $this->response->noContent();
     }
@@ -67,16 +67,16 @@ class ProductsController extends Controller
         return $this->response->noContent();
     }
 
-    public function update(Request $request, Product $product, ProductImage $productImage)
+    public function update(Request $request, Product $product, ProductImage $productImage, ImageUploadHandler $image)
     {
-        $product = \DB::transaction(function () use ($request, $product, $productImage) {
+        $product = \DB::transaction(function () use ($request, $product, $productImage, $image) {
             if ($request->image != $product->image) {
-                $res = $this->moveImage('product', $request->image);
+                $res = $image->moveImage('product', $request->image);
                 if (!$res) {
                     \DB::rollBack();
                     return false;
                 }
-                $this->deleteImage($product->image);
+                $image->deleteImage($product->image);
                 $request['image'] = $res;
             }
             $product->update($request->all());
@@ -88,7 +88,7 @@ class ProductsController extends Controller
                     $productDetail = array_diff($productDetail, [$v['imgUrl']]);
                     $res = $v['imgUrl'];
                 } else {
-                    $res = $this->moveImage('productDetail', $v['imgUrl']);
+                    $res = $image->moveImage('productDetail', $v['imgUrl']);
                     if (!$res) {
                         \DB::rollBack();
                         return false;
@@ -111,25 +111,5 @@ class ProductsController extends Controller
         }
     }
 
-    public function deleteImage($path)
-    {
-        if (File::exists($path)) {
-            File::delete($path);
-        }
-    }
 
-    public function moveImage($type, $path)
-    {
-        if (File::exists($path)) {
-            $folder_name = 'uploads/formal/'.$type.'/'. date('Ym', time()) . '/' . date('d', time()). '/';
-            if (!is_dir($folder_name)) {
-                File::makeDirectory($folder_name,  $mode = 0777, $recursive = true);
-            }
-            $full_path = $folder_name.basename($path);
-            File::move($path, $full_path);
-            return $full_path;
-        } else {
-            return false;
-        }
-    }
 }

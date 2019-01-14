@@ -11,7 +11,7 @@ class BannerTransformer extends TransformerAbstract
     {
         return [
             'id' => $banner->id,
-            'show' => $banner->on_show,
+            'show' => (boolean) $banner->on_show,
             'imgUrl' => $banner->imgUrl,
             'created_at' => $banner->created_at->toDateTimeString(),
         ];

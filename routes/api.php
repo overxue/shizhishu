@@ -130,6 +130,8 @@ $api->version('v1', [
         'limit' => config('api.rate_limits.access.limit'),
         'expires' => config('api.rate_limits.access.expires'),
     ], function ($api) {
+        // 创建banner
+        $api->post('admin/banners', 'Admin\BannersController@store');
         // banner 图列表
         $api->get('admin/banners', 'Admin\BannersController@index');
         // 隐藏 banner

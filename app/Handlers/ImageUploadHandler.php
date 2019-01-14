@@ -2,6 +2,8 @@
 
 namespace App\Handlers;
 
+use Illuminate\Support\Facades\File;
+
 class ImageUploadHandler
 {
     protected $allowed_ext = ['png', 'jpg', 'gif', 'jpeg'];
@@ -26,5 +28,27 @@ class ImageUploadHandler
         return [
             'path' => $folder_name.$filename
         ];
+    }
+
+    public function deleteImage($path)
+    {
+        if (File::exists($path)) {
+            File::delete($path);
+        }
+    }
+
+    public function moveImage($type, $path)
+    {
+        if (File::exists($path)) {
+            $folder_name = 'uploads/formal/'.$type.'/'. date('Ym', time()) . '/' . date('d', time()). '/';
+            if (!is_dir($folder_name)) {
+                File::makeDirectory($folder_name,  $mode = 0777, $recursive = true);
+            }
+            $full_path = $folder_name.basename($path);
+            File::move($path, $full_path);
+            return $full_path;
+        } else {
+            return false;
+        }
     }
 }
