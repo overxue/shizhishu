@@ -32,4 +32,12 @@ class BannersController extends Controller
 
         return $this->response->item($banner, new BannerTransformer());
     }
+
+    public function destroy(Banner $banner, ImageUploadHandler $image)
+    {
+        $image->deleteImage($banner->imgUrl);
+        $banner->delete();
+
+        return $this->response->noContent();
+    }
 }

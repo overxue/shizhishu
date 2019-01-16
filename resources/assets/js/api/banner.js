@@ -24,3 +24,10 @@ export function banner (data) {
     data
   })
 }
+
+export function delBanner (id) {
+  return request({
+    url: `/api/admin/banners/${id}`,
+    method: 'delete'
+  })
+}

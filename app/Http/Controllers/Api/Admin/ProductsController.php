@@ -99,7 +99,7 @@ class ProductsController extends Controller
             }
             if (!empty($productDetail)) {
                 foreach($productDetail as $value) {
-                    $this->deleteImage($value);
+                    $image->deleteImage($value);
                 }
             }
             return true;

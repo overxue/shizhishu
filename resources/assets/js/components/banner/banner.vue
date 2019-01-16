@@ -23,6 +23,7 @@
       <el-table-column label="操作" min-width="200px">
         <template slot-scope="scope">
           <el-button size="small" :type="scope.row.show | typeFilter" @click="show(scope.row.id, !scope.row.show)" v-text="scope.row.show ? '隐藏' : '显示'"></el-button>
+          <el-button size="small" type="danger" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -43,6 +44,7 @@
             action="/api/images"
             :on-success="handleSuccess"
             :on-remove="handleRemove"
+            :file-list="fileList"
             :limit="1"
             name="image"
             :data="{'type': 'banner'}"
@@ -52,7 +54,7 @@
           </el-upload>
           <el-input v-model="createBanner.imgUrl" type="hidden" style="display: none"></el-input>
         </el-form-item>
-        <el-form-item label="是否显示" label-width="80px">
+        <el-form-item label="是否显示" label-width="80px" prop="on_show">
           <el-switch
             v-model="createBanner.on_show"
             active-color="#13ce66"
@@ -61,7 +63,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="reset">重 置</el-button>
         <el-button type="primary" @click="createSubmit">确 定</el-button>
       </div>
     </el-dialog>
@@ -69,9 +71,9 @@
 </template>
 
 <script>
-import { getBannerList, showBanner, banner } from 'api/banner'
+import { getBannerList, showBanner, banner, delBanner } from 'api/banner'
 import dayjs from 'dayjs'
-import 'dayjs/locale/zh-cn'
+// import 'dayjs/locale/zh-cn'
 // import relativeTime from 'dayjs/plugin/relativeTime'
 // dayjs.extend(relativeTime)
 export default {
@@ -87,7 +89,8 @@ export default {
       },
       rules: {
         imgUrl: [{required: true, message: '请上传图片', trigger: 'change'}]
-      }
+      },
+      fileList: []
     }
   },
   filters: {
@@ -124,14 +127,30 @@ export default {
     handleRemove () {
       this.createBanner.imgUrl = ''
     },
+    reset () {
+      this.$refs['banner'].resetFields()
+      this.fileList = []
+    },
     createSubmit () {
       this.$refs['banner'].validate((valid) => {
         if (!valid) return
         banner(this.createBanner).then(res => {
           this._getBanner()
+          this.reset()
           this.dialogFormVisible = false
         })
       })
+    },
+    del (id) {
+      this.$confirm('此操作将永久删除该banner, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        delBanner(id).then(() => {
+          this._getBanner()
+        })
+      }).catch(() => {})
     }
   }
 }

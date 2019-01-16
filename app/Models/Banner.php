@@ -11,4 +11,9 @@ class Banner extends Model
     protected $cats = [
         'on_show' => 'boolean'
     ];
+
+    public function getFullimageAttribute()
+    {
+        return config('app.url').'/'.$this->imgUrl;
+    }
 }

@@ -134,6 +134,8 @@ $api->version('v1', [
         $api->post('admin/banners', 'Admin\BannersController@store');
         // banner 图列表
         $api->get('admin/banners', 'Admin\BannersController@index');
+        // 删除banner
+        $api->delete('admin/banners/{banner}', 'Admin\BannersController@destroy');
         // 隐藏 banner
         $api->post('admin/banners/{banner}/onShow', 'Admin\BannersController@onShow');
         // 优惠券
