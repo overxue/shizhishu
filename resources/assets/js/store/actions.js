@@ -43,22 +43,5 @@ export const GenerateRoutes = function ({ commit }) {
   let accessedRouters
   accessedRouters = asyncRouterMap
   let route = constantRouterMap.concat(accessedRouters).filter(item => !item.hidden)
-  // let menu = []
-  // constantRouterMap.concat(accessedRouters).forEach((rou) => {
-  //   if (!rou.hidden) {
-  //     const showingChildren = rou.children.filter(item => {
-  //       if (item.hidden) {
-  //         return false
-  //       } else {
-  //         return true
-  //       }
-  //     })
-  //     if (showingChildren.length === 1 || rou.alwaysShow) {
-  //       menu.push({ meta: showingChildren[0].meta, path: showingChildren[0].path})
-  //     } else {
-  //       menu.push({ meta: rou.meta, children: showingChildren })
-  //     }
-  //   }
-  // })
   commit(types.SET_ROUTERS, { route, accessedRouters })
 }

@@ -80,6 +80,7 @@ export default {
       if (first && first.name !== 'dashboard') {
         matched = [{ path: '/dashboard', meta: { title: '首页' }}].concat(matched)
       }
+      console.log(matched)
       this.levelList = matched
     },
     logout () {
@@ -113,9 +114,6 @@ export default {
   .navbar
     display: flex
     justify-content: space-between
-    /*position: absolute*/
-    /*top: 0*/
-    /*left: 0*/
     height: 50px
     width: 100%
     border-bottom: 1px solid #f2f2f2
@@ -147,6 +145,8 @@ export default {
           transition: all .5s
         .breadcrumb-leave-active
           position: absolute
+        .no-redirect
+          color: #97a8be
     .right-menu
       line-height: 50px
       .screenfull
@@ -180,4 +180,7 @@ export default {
       .el-breadcrumb
         display: inline-block
         line-height: 50px
+        .el-breadcrumb__inner
+          a
+            font-weight: 400!important
 </style>

@@ -52,6 +52,7 @@ export default {
         }
       })
       if (showingChildren.length === 1 && !res.alwaysShow) {
+        // 单个
        menu.push({ meta: showingChildren[0].meta, path: showingChildren[0].path})
       } else {
         menu.push({ meta: res.meta, children: showingChildren })
