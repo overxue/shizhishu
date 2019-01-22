@@ -45,6 +45,7 @@ export default {
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .productCreate
+    background: #fff
     .create-item
       padding: 20px
 </style>

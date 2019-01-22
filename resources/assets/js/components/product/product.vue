@@ -42,7 +42,7 @@
         </el-pagination>
       </div>
 
-      <el-dialog title="收货地址" :visible.sync="dialogFormVisible" :modal-append-to-body='false'>
+      <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
         <create-form :product="editForm" @createForm="editSubmit" ref="productForm"></create-form>
       </el-dialog>
     </div>

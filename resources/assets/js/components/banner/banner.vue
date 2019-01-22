@@ -1,7 +1,7 @@
 <template>
   <div class="banner-contant">
     <div class="add">
-      <el-button type="primary" icon="el-icon-edit" size="medium" @click="dialogFormVisible = true">添加</el-button>
+      <el-button type="primary" icon="el-icon-circle-plus-outline" size="medium" @click="dialogFormVisible = true">添加</el-button>
     </div>
     <el-table :data="banners" v-loading="loading" highlight-current-row stripe border style="width: 100%">
       <el-table-column sortable prop="id" label="序号" width="80" align="center"></el-table-column>
@@ -22,8 +22,8 @@
       </el-table-column>
       <el-table-column label="操作" min-width="200px">
         <template slot-scope="scope">
-          <el-button size="small" :type="scope.row.show | typeFilter" @click="show(scope.row.id, !scope.row.show)" v-text="scope.row.show ? '隐藏' : '显示'"></el-button>
-          <el-button size="small" type="danger" @click="del(scope.row.id)">删除</el-button>
+          <el-button icon="el-icon-view" size="small" :type="scope.row.show | typeFilter" @click="show(scope.row.id, !scope.row.show)" v-text="scope.row.show ? '隐藏' : '显示'"></el-button>
+          <el-button icon="el-icon-delete" size="small" type="danger" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -34,7 +34,7 @@
         </div>
       </div>
     </transition>
-    <el-dialog title="新增Banner" :visible.sync="dialogFormVisible" :modal-append-to-body='false'>
+    <el-dialog title="新增Banner" :visible.sync="dialogFormVisible">
       <el-form :model="createBanner" :rules="rules" ref="banner">
         <el-form-item label="图片" label-width="80px" prop="imgUrl">
           <el-upload

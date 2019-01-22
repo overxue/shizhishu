@@ -8,5 +8,7 @@
 export default {}
 </script>
 
-<style scoped>
+<style scoped lang="stylus" rel="stylesheet/stylus">
+  #app
+    height: 100%
 </style>

@@ -41,7 +41,7 @@
         </el-pagination>
       </div>
 
-      <el-dialog :title="`${dialogStatus}优惠券`" :visible.sync="dialogFormVisible" :modal-append-to-body='false'>
+      <el-dialog :title="`${dialogStatus}优惠券`" :visible.sync="dialogFormVisible">
         <el-form :model="createCoupon" :rules="rules" ref="couponForm" label-width="110px">
           <el-form-item label="优惠金额" prop="money">
             <el-input v-model.number="createCoupon.money" style="width: 350px"></el-input>
