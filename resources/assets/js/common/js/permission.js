@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
         // token 过期，请求后端接口刷新 token
         refreshToken().then((res) => {
           store.dispatch('saveToken', { token: res.access_token, time: res.expires_in })
-          next()
+          next({ ...to, replace: true })
         }).catch(() => {
           store.dispatch('clearLoginInformation')
           next(`/login?redirect=${to.path}`)
